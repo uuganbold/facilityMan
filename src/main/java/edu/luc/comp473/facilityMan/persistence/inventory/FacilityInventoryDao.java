@@ -15,4 +15,6 @@ public interface FacilityInventoryDao {
 
     List<Facility> findAllFacilities();
 
+    void removeFacility(Facility any);
+
 }

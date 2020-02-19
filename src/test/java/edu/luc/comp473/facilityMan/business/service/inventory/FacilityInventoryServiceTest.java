@@ -1,10 +1,14 @@
 package edu.luc.comp473.facilityMan.business.service.inventory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,6 +23,7 @@ import org.mockito.Mockito;
 import edu.luc.comp473.facilityMan.business.entities.facility.Building;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
+import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 import edu.luc.comp473.facilityMan.business.exceptions.DuplicatedEntityException;
 import edu.luc.comp473.facilityMan.persistence.inventory.FacilityInventoryDao;
 
@@ -129,5 +134,63 @@ public class FacilityInventoryServiceTest {
         // then
         verify(dao, times(1)).findFacilityById(anyLong());
         assertNull(actual);
+    }
+
+    @Test
+    public void givenDataAccessException_whenRemoveFacility_thenReturnFalse() {
+        // given
+        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
+
+        when(dao.findFacilityById(anyLong())).thenReturn(new Building());
+        doThrow(DataAccessException.class).when(dao).removeFacility(any(Facility.class));
+
+        // when
+        boolean removed = service.removeFacility(10L);
+
+        // then
+        verify(dao).removeFacility(any(Facility.class));
+        assertFalse(removed);
+    }
+
+    @Test
+    public void givenFacilityNotExists_whenRemoveFacility_thenReturnFalse() {
+        // given
+        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
+
+        when(dao.findFacilityById(anyLong())).thenReturn(null);
+
+        // when
+        boolean removed = service.removeFacility(10L);
+
+        // then
+        verify(dao, times(0)).removeFacility(any(Facility.class));
+        verify(dao).findFacilityById(10L);
+        assertFalse(removed);
+    }
+
+    @Test
+    public void givenFacility_whenRemoveFacility_thenRemoveItAndReturnTrue() {
+        // given
+        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
+
+        Facility facility = new Building();
+        facility.setId(20);
+
+        when(dao.findFacilityById(facility.getId())).thenReturn(facility);
+
+        ArgumentCaptor<Facility> captor = ArgumentCaptor.forClass(Facility.class);
+        doNothing().when(dao).removeFacility(captor.capture());
+
+        // when
+        boolean removed = service.removeFacility(facility.getId());
+
+        // then
+        assertEquals(facility, captor.getValue());
+        verify(dao).findFacilityById(facility.getId());
+        verify(dao).removeFacility(facility);
+        assertTrue(removed);
     }
 }

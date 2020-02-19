@@ -2,6 +2,7 @@ package edu.luc.comp473.facilityMan.business.service.inventory;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail;
+import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 import edu.luc.comp473.facilityMan.business.exceptions.DuplicatedEntityException;
 import edu.luc.comp473.facilityMan.persistence.inventory.FacilityInventoryDao;
 
@@ -43,6 +44,9 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
     public void addNewFacility(Facility facility) {
         Facility facility2 = dao.findFacilityById(facility.getId());
         if (facility2 != null) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Tried to add facility which exists in our database");
+            }
             throw new DuplicatedEntityException("The facility is exists in our facilities already");
 
         }
@@ -51,7 +55,28 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
 
     @Override
     public boolean removeFacility(Long id) {
-        return false;
+        boolean result = false;
+        try {
+            Facility facility = dao.findFacilityById(id);
+            if (facility == null) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Tried to remove facility which does not exist:" + id);
+                }
+                result = false;
+            } else {
+                dao.removeFacility(facility);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Facility removed:" + id);
+                }
+                result = true;
+            }
+        } catch (DataAccessException dae) {
+            if (logger.isWarnEnabled()) {
+                logger.warn("Failed to remove facility,", dae);
+            }
+            result = false;
+        }
+        return result;
     }
 
     @Override
