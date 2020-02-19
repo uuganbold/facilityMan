@@ -1,7 +1,6 @@
 package edu.luc.comp473.facilityMan.business.entities.facility;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Building is a construction constructed by Units.
@@ -11,7 +10,7 @@ public class Building extends Facility {
     /**
      * A building is constructed by units.
      */
-    private List<Unit> units = new ArrayList<>();
+    private ArrayList<Unit> units = new ArrayList<>();
 
     /**
      * Building's capacity is defined by it's units' capacities.
@@ -23,6 +22,10 @@ public class Building extends Facility {
             totalCapacity += unit.getCapacity();
         }
         return totalCapacity;
+    }
+
+    public ArrayList<Unit> getUnits() {
+        return this.units;
     }
 
     public void addUnit(Unit unit) {
