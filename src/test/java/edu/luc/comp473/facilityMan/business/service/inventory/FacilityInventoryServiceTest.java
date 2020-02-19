@@ -25,7 +25,7 @@ import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 import edu.luc.comp473.facilityMan.business.exceptions.DuplicatedEntityException;
-import edu.luc.comp473.facilityMan.persistence.inventory.FacilityInventoryDao;
+import edu.luc.comp473.facilityMan.persistence.inventory.facility.FacilityInventoryDao;
 
 /**
  * Test cases regarding FacilityInventoryService.

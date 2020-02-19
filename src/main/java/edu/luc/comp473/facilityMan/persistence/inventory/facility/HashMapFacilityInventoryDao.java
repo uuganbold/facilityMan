@@ -1,4 +1,4 @@
-package edu.luc.comp473.facilityMan.persistence.inventory;
+package edu.luc.comp473.facilityMan.persistence.inventory.facility;
 
 import java.util.HashMap;
 import java.util.List;

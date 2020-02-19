@@ -8,10 +8,12 @@ import java.util.Date;
 public class FacilityMaintenanceRequest {
     private Date dateSubmitted;
     private String description;
+    private long id;
 
-    public FacilityMaintenanceRequest(String description) {
+    public FacilityMaintenanceRequest(Long id, String description) {
         this.dateSubmitted = new Date();
         this.description = description;
+        this.id = id;
     }
 
     public Date getDateSubmitted() {
@@ -21,4 +23,7 @@ public class FacilityMaintenanceRequest {
     public String getDescription() {
         return description;
     }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 }

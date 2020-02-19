@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import edu.luc.comp473.facilityMan.persistence.inventory.facility.FacilityInventoryDao;
+import edu.luc.comp473.facilityMan.persistence.inventory.facility.HashMapFacilityInventoryDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
