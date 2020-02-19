@@ -5,6 +5,8 @@ package edu.luc.comp473.facilityMan.business.exceptions;
  */
 public class DataAccessException extends ApplicationException {
 
+    private static final long serialVersionUID = 1L;
+
     public DataAccessException() {
     }
 
