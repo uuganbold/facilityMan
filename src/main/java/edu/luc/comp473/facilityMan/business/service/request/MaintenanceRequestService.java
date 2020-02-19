@@ -5,6 +5,9 @@ import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
 
 import java.util.List;
 
+/**
+ * Interface defining behariours regarding MaintenanceRequest.
+ */
 public interface MaintenanceRequestService {
     FacilityMaintenanceRequest makeFacilityMaintenanceReq(Problem problem, long id);
 

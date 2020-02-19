@@ -2,6 +2,9 @@ package edu.luc.comp473.facilityMan.business.entities.maintenance;
 
 import java.util.Date;
 
+/**
+ * Entity for facility maintenance request.
+ */
 public class FacilityMaintenanceRequest {
     private Date dateSubmitted;
     private String description;

@@ -3,6 +3,9 @@ package edu.luc.comp473.facilityMan.business.entities.use;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
 
+/**
+ * Entity for facility use.
+ */
 public class FacilityUse {
 
     private Facility facility;

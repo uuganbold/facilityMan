@@ -1,61 +1,75 @@
 package edu.luc.comp473.facilityMan.business.service.inventory;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
+import edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail;
+import edu.luc.comp473.facilityMan.business.exceptions.DuplicatedEntityException;
+import edu.luc.comp473.facilityMan.persistence.inventory.FacilityInventoryDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Simple @see FacilityInventoryService implementation depending
+ * on @see @FacilityInventoryDao.
+ */
 public class FacilityInventoryServiceImpl implements FacilityInventoryService {
-    private List<Facility> allFacilities = new ArrayList<>();
+    private final Logger logger = LoggerFactory.getLogger(FacilityInventoryServiceImpl.class);
 
-    // Singleton instance of this class
-    private static FacilityInventoryServiceImpl single_instance = null;
+    private FacilityInventoryDao dao;
 
-    private FacilityInventoryServiceImpl() {
-    }
-
-    public static FacilityInventoryServiceImpl getInstance() {
-        if (single_instance == null)
-            single_instance = new FacilityInventoryServiceImpl();
-
-        return single_instance;
+    public FacilityInventoryServiceImpl(FacilityInventoryDao dao) {
+        this.dao = dao;
     }
 
     @Override
     public List<Facility> listFacilities() {
-        return allFacilities;
+        if (logger.isDebugEnabled()) {
+            logger.debug("Reading all facilities from DAO");
+        }
+        return dao.findAllFacilities();
     }
 
-    public Facility getFacility(Long id) {
-        try {
-            for (Facility f : allFacilities) {
-                if (f.getId() == id) {
-                    return f;
-                }
-            }
-            return null;
-        } catch (Exception e) {
-            return null;
+    @Override
+    public Facility getFacility(long id) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("Reading facility with id:" + id);
         }
+        return dao.findFacilityById(id);
     }
 
     @Override
     public void addNewFacility(Facility facility) {
-        allFacilities.add(facility);
+        Facility facility2 = dao.findFacilityById(facility.getId());
+        if (facility2 != null) {
+            throw new DuplicatedEntityException("The facility is exists in our facilities already");
+
+        }
+        dao.saveFacility(facility);
     }
 
     @Override
     public boolean removeFacility(Long id) {
-        try {
-            for (Facility f : allFacilities) {
-                if (f.getId() == id) {
-                    allFacilities.remove((f));
-                    return true;
-                }
-            }
-            return false;
-        } catch (Exception e) {
-            return false;
-        }
+        return false;
     }
+
+    @Override
+    public void addFacilityDetail(Long id, FacilityDetail detail) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public FacilityDetail getFacilityInformation(Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public int requestAvailableCapacity(Long id) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
 }

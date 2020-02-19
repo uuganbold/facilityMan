@@ -7,6 +7,9 @@ import edu.luc.comp473.facilityMan.business.entities.util.Status;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * FacilityMaintenance entity.
+ */
 public class FacilityMaintenance {
     private List<Problem> problems = new ArrayList<>();
     private Schedule schedule;
@@ -15,6 +18,10 @@ public class FacilityMaintenance {
     private List<FacilityMaintenanceRequest> requests = new ArrayList<>();
     private List<FacilityMaintenanceOrder> orders = new ArrayList<>();
 
+    /**
+     * When we use ORM framework, we are not likely to have constructor like this.
+     * But it may be fixed later.
+     */
     public FacilityMaintenance(Schedule schedule, Facility facility) {
         this.schedule = schedule;
         this.facility = facility;

@@ -4,12 +4,23 @@ import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
 import edu.luc.comp473.facilityMan.business.entities.util.Status;
 
+/**
+ * Entity for facility inspection.
+ */
 public class FacilityInspection {
     private InspectionType inspectionType;
     private Schedule schedule;
     private Status status;
     private Facility facility;
 
+    /**
+     * When we use ORM framework we are not likely to have this constructor. It can
+     * be fixed later.
+     *
+     * @param inspectionType
+     * @param schedule
+     * @param facility
+     */
     public FacilityInspection(InspectionType inspectionType, Schedule schedule, Facility facility) {
         this.inspectionType = inspectionType;
         this.schedule = schedule;

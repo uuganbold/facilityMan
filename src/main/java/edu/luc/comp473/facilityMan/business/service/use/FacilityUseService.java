@@ -7,6 +7,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Interface defining behaviours regarding FacilitityUse.
+ */
 public interface FacilityUseService {
     boolean isInUseDuringInterval(long id, Date start, Date end);
 

@@ -2,6 +2,9 @@ package edu.luc.comp473.facilityMan.business.entities.maintenance;
 
 import java.math.BigDecimal;
 
+/**
+ * Entity FacilityMaintenanceOrder.
+ */
 public class FacilityMaintenanceOrder {
     private BigDecimal totalCost;
     private String description;

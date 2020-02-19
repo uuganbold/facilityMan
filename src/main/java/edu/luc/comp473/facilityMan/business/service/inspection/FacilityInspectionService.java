@@ -4,6 +4,9 @@ import edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspecti
 
 import java.util.List;
 
+/**
+ * Interface defining behaviours regarding FacilityInspection.
+ */
 public interface FacilityInspectionService {
     List<FacilityInspection> listInspection(long id);
 

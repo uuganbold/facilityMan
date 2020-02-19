@@ -5,9 +5,12 @@ import edu.luc.comp473.facilityMan.business.entities.maintenance.FacilityMainten
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Simple @see FacilityMaintenanceService implementations depending on DAO.
+ */
 public class FacilityMaintenanceServiceImpl implements FacilityMaintenanceService {
 
-    List<FacilityMaintenance> maintenances = new ArrayList<>();
+    private List<FacilityMaintenance> maintenances = new ArrayList<>();
 
     @Override
     public void scheduleMaint(FacilityMaintenance maint) {

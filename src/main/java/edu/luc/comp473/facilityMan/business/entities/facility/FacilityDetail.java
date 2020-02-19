@@ -1,12 +1,19 @@
 package edu.luc.comp473.facilityMan.business.entities.facility;
 
+/**
+ * Detailed information about Facility.
+ */
 public class FacilityDetail {
-    private String name, description;
 
-    public FacilityDetail(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
+    /**
+     * Facilities have some names.
+     */
+    private String name;
+
+    /**
+     * Facilities have some description.
+     */
+    private String description;
 
     public String getName() {
         return name;

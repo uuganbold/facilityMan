@@ -5,6 +5,9 @@ import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
 
 import java.util.List;
 
+/**
+ * Simple @MaintenanceRequestService depending on DAO.
+ */
 public class MaintenanceRequestServiceImpl implements MaintenanceRequestService {
     @Override
     // TODO: implement
