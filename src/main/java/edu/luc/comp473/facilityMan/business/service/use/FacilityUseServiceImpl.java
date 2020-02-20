@@ -18,7 +18,9 @@ public class FacilityUseServiceImpl implements FacilityUseService {
     @Override
     // TODO: Complete this implementation
     public boolean isInUseDuringInterval(long id, Date start, Date end) {
+
         return false;
+
     }
 
     @Override

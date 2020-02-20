@@ -82,19 +82,32 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
     @Override
     public void addFacilityDetail(Long id, FacilityDetail detail) {
         // TODO Auto-generated method stub
-
+        Facility facility = dao.findFacilityById(id);
+        if(facility != null){
+            facility.setDetail(detail);
+        } else{
+            throw new DataAccessException("Tried adding detail to a facility which doesn't exist.");
+        }
     }
 
     @Override
     public FacilityDetail getFacilityInformation(Long id) {
         // TODO Auto-generated method stub
-        return null;
+        Facility facility = dao.findFacilityById(id);
+        if(facility != null){
+            return facility.getDetail();
+        } else{
+            throw new DataAccessException("Tried retrieving information from facility which doesn't exist.");
+        }
     }
 
     @Override
     public int requestAvailableCapacity(Long id) {
-        // TODO Auto-generated method stub
-        return 0;
+        Facility facility = dao.findFacilityById(id);
+        if(facility != null){
+            return facility.getCapacity();
+        }
+        throw new DataAccessException("Tried retrieving capacity from facility which doesn't exist.");
     }
 
 }
