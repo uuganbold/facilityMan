@@ -20,12 +20,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import edu.luc.comp473.facilityMan.business.entities.facility.Building;
-import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
-import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 import edu.luc.comp473.facilityMan.business.exceptions.DuplicatedEntityException;
-import edu.luc.comp473.facilityMan.persistence.inventory.facility.FacilityInventoryDao;
 
 /**
  * Test cases regarding FacilityInventoryService.

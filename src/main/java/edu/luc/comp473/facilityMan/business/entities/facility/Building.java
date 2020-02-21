@@ -30,7 +30,6 @@ public class Building extends Facility {
 
     public void addUnit(Unit unit) {
         units.add(unit);
-        unit.setBuilding(this);
     }
 
     /**
@@ -43,7 +42,6 @@ public class Building extends Facility {
     public boolean removeUnit(Unit unit) {
         if (units.contains(unit)) {
             units.remove(unit);
-            unit.setBuilding(null);
             return true;
         }
         return false;

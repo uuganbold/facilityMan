@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import edu.luc.comp473.facilityMan.persistence.inventory.facility.FacilityInventoryDao;
-import edu.luc.comp473.facilityMan.persistence.inventory.facility.HashMapFacilityInventoryDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -20,9 +18,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import edu.luc.comp473.facilityMan.business.entities.facility.Building;
-import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
-import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 
 /**

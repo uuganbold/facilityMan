@@ -1,15 +1,13 @@
 package edu.luc.comp473.facilityMan.business.service.inventory;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
-import edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 import edu.luc.comp473.facilityMan.business.exceptions.DuplicatedEntityException;
-import edu.luc.comp473.facilityMan.persistence.inventory.facility.FacilityInventoryDao;
-
-import java.util.List;
-
+import edu.luc.comp473.facilityMan.persistence.inventory.facility.FacilityDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Simple @see FacilityInventoryService implementation depending
@@ -18,9 +16,9 @@ import org.slf4j.LoggerFactory;
 public class FacilityInventoryServiceImpl implements FacilityInventoryService {
     private final Logger logger = LoggerFactory.getLogger(FacilityInventoryServiceImpl.class);
 
-    private FacilityInventoryDao dao;
+    private FacilityDao dao;
 
-    public FacilityInventoryServiceImpl(FacilityInventoryDao dao) {
+    public FacilityInventoryServiceImpl(FacilityDao dao) {
         this.dao = dao;
     }
 
@@ -30,14 +28,6 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
             logger.debug("Reading all facilities from DAO");
         }
         return dao.findAllFacilities();
-    }
-
-    @Override
-    public Facility getFacility(long id) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Reading facility with id:" + id);
-        }
-        return dao.findFacilityById(id);
     }
 
     @Override
@@ -55,7 +45,7 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
 
     @Override
     public boolean removeFacility(Long id) {
-        boolean result = false;
+        boolean result;
         try {
             Facility facility = dao.findFacilityById(id);
             if (facility == null) {
@@ -64,7 +54,7 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
                 }
                 result = false;
             } else {
-                dao.removeFacility(facility);
+                dao.removeFacility(id);
                 if (logger.isDebugEnabled()) {
                     logger.debug("Facility removed:" + id);
                 }
@@ -78,36 +68,4 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
         }
         return result;
     }
-
-    @Override
-    public void addFacilityDetail(Long id, FacilityDetail detail) {
-        // TODO Auto-generated method stub
-        Facility facility = dao.findFacilityById(id);
-        if(facility != null){
-            facility.setDetail(detail);
-        } else{
-            throw new DataAccessException("Tried adding detail to a facility which doesn't exist.");
-        }
-    }
-
-    @Override
-    public FacilityDetail getFacilityInformation(Long id) {
-        // TODO Auto-generated method stub
-        Facility facility = dao.findFacilityById(id);
-        if(facility != null){
-            return facility.getDetail();
-        } else{
-            throw new DataAccessException("Tried retrieving information from facility which doesn't exist.");
-        }
-    }
-
-    @Override
-    public int requestAvailableCapacity(Long id) {
-        Facility facility = dao.findFacilityById(id);
-        if(facility != null){
-            return facility.getCapacity();
-        }
-        throw new DataAccessException("Tried retrieving capacity from facility which doesn't exist.");
-    }
-
 }

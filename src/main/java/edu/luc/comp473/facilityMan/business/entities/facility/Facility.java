@@ -7,7 +7,7 @@ package edu.luc.comp473.facilityMan.business.entities.facility;
 public abstract class Facility {
 
     /**
-     * Facility has unique idenfier.
+     * Facility has unique identifier.
      */
     private long id;
 
