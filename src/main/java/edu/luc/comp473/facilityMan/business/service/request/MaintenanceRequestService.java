@@ -9,7 +9,9 @@ import java.util.List;
  * Interface defining behariours regarding MaintenanceRequest.
  */
 public interface MaintenanceRequestService {
-    MaintenanceRequest makeMaintenanceReq(Problem problem, long id);
+    MaintenanceRequest makeMaintenanceRequest(Problem problem, long id);
 
-    List<MaintenanceRequest> listMaintReq();
+    MaintenanceRequest getMaintenanceRequest(long id);
+
+    List<MaintenanceRequest> getAllMaintenanceRequests();
 }

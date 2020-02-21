@@ -12,9 +12,8 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class HashMapMaintenanceDao implements MaintenanceDao {
     private final Map<Long, Maintenance> dataStore;
-    private final AtomicLong autoIncrementer = new AtomicLong(0);
 
-    public HashMapMaintenanceDao(){ dataStore = new HashMap<>();}
+    public HashMapMaintenanceDao(HashMap<Long, Maintenance> dataStore){ this.dataStore = dataStore;}
 
     @Override
     public void addMaintenance(Maintenance maintenance){
@@ -22,14 +21,14 @@ public class HashMapMaintenanceDao implements MaintenanceDao {
     }
 
     @Override
-    public void addMaintenanceRequest(Long id, MaintenanceRequest maintenanceRequest){
+    public void addMaintenanceRequest(long id, MaintenanceRequest maintenanceRequest){
         synchronized (dataStore){
             dataStore.get(id).addRequest(maintenanceRequest);
         }
     }
 
     @Override
-    public Maintenance getMaintenanceById(Long id){
+    public Maintenance getMaintenanceById(long id){
         if(!dataStore.containsKey(id)){
             throw new DataAccessException("Maintenance not found of id: " + id);
         }
@@ -37,17 +36,14 @@ public class HashMapMaintenanceDao implements MaintenanceDao {
     }
 
     @Override
-    public MaintenanceRequest getMaintenanceRequestById(long maintenanceId, long maintenanceRequestId) {
-        if(!dataStore.containsKey(maintenanceId)){
-            throw new DataAccessException("Maintenance not found of id: " + maintenanceId);
-        }
-        Maintenance maintenance = dataStore.get(maintenanceId);
-        for(MaintenanceRequest maintenanceRequest : maintenance.getRequests()){
-            if(maintenanceRequest.getId() == maintenanceRequestId){
+    public MaintenanceRequest getMaintenanceRequestById(long id) {
+        List<MaintenanceRequest> allMaintenanceRequests = this.getAllMaintenanceRequests();
+        for(MaintenanceRequest maintenanceRequest : allMaintenanceRequests){
+            if(maintenanceRequest.getId() == id){
                 return maintenanceRequest;
             }
         }
-        throw new DataAccessException("Maintenance request not found of id: " + maintenanceRequestId);
+        throw new DataAccessException("Maintenance request not found of id: " + id);
     }
 
     @Override
@@ -57,7 +53,7 @@ public class HashMapMaintenanceDao implements MaintenanceDao {
 
     @Override
     public List<MaintenanceRequest> getAllMaintenanceRequests() {
-        ArrayList<MaintenanceRequest> maintenanceRequests = new ArrayList<>();
+        List<MaintenanceRequest> maintenanceRequests = new ArrayList<>();
         for(Maintenance maintenance : dataStore.values()){
             maintenanceRequests.addAll(maintenance.getRequests());
         }

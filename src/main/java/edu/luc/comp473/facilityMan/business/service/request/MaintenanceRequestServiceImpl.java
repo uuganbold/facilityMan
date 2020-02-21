@@ -19,14 +19,15 @@ public class MaintenanceRequestServiceImpl implements MaintenanceRequestService 
     }
 
     @Override
-    public MaintenanceRequest makeMaintenanceReq(Problem problem, long id) {
+    public MaintenanceRequest makeMaintenanceRequest(Problem problem, long maintenanceId) {
         MaintenanceRequest maintenanceRequest = new MaintenanceRequest(autoIncrementer.incrementAndGet(), problem.getDescription());
-        maintenanceDao.addMaintenanceRequest(id, maintenanceRequest);
+        maintenanceDao.addMaintenanceRequest(maintenanceId, maintenanceRequest);
         return maintenanceRequest;
     }
 
     @Override
-    public List<MaintenanceRequest> listMaintReq() {
-        return maintenanceDao.getAllMaintenanceRequests();
-    }
+    public MaintenanceRequest getMaintenanceRequest(long id){ return maintenanceDao.getMaintenanceRequestById(id); }
+
+    @Override
+    public List<MaintenanceRequest> getAllMaintenanceRequests() { return maintenanceDao.getAllMaintenanceRequests(); }
 }

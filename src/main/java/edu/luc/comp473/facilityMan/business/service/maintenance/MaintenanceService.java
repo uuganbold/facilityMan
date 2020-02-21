@@ -11,9 +11,11 @@ import java.util.List;
 public interface MaintenanceService {
     void scheduleMaintenance(Maintenance maint);
 
+    Maintenance getMaintenance(long id);
+
     List<Maintenance> listMaintenance();
 
-    BigDecimal calcMaintenanceCostForFacility(Long id);
+    BigDecimal calcMaintenanceCostForFacility(long id);
 
-    int calcDownTimeForFacility(Long id);
+    int calcDownTimeForFacility(long id);
 }

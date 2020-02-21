@@ -8,11 +8,11 @@ import java.util.List;
 public interface MaintenanceDao {
     void addMaintenance(Maintenance maintenance);
 
-    void addMaintenanceRequest(Long id, MaintenanceRequest maintenanceRequest);
+    void addMaintenanceRequest(long id, MaintenanceRequest maintenanceRequest);
 
-    Maintenance getMaintenanceById(Long id);
+    Maintenance getMaintenanceById(long id);
 
-    MaintenanceRequest getMaintenanceRequestById(long maintenanceId, long maintenanceRequestId);
+    MaintenanceRequest getMaintenanceRequestById(long id);
 
     List<Maintenance> getAllMaintenance();
 

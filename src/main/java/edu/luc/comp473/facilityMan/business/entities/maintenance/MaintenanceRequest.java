@@ -10,7 +10,7 @@ public class MaintenanceRequest {
     private String description;
     private long id;
 
-    public MaintenanceRequest(Long id, String description) {
+    public MaintenanceRequest(long id, String description) {
         this.dateSubmitted = new Date();
         this.description = description;
         this.id = id;
@@ -24,6 +24,6 @@ public class MaintenanceRequest {
         return description;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
 }

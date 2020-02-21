@@ -2,61 +2,69 @@ package edu.luc.comp473.facilityMan.persistence.inventory.maintenance;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Building;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
+import edu.luc.comp473.facilityMan.business.entities.maintenance.Maintenance;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.MaintenanceRequest;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
+import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
+import edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceService;
+import edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceServiceImpl;
 import edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestService;
 import edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestServiceImpl;
-import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class HashMapMaintenanceDaoTest {
-    MaintenanceDao dao = Mockito.mock(MaintenanceDao.class);
-    MaintenanceRequestService service = new MaintenanceRequestServiceImpl(dao);
 
+    private HashMap<Long, Maintenance> dataStore;
 
-//    @BeforeEach
-//    void setUp() {
-//    }
-//
-//    @AfterEach
-//    void tearDown() {
-//    }
+    private MaintenanceDao dao;
+
+    @BeforeAll
+    public void setUp(){
+        dataStore = new HashMap<>();
+        dao = new HashMapMaintenanceDao(dataStore);
+    }
 
     //TODO edge conditions
     @Test
-    public void givenFacilityMaintReq_whenMakeFacilityMaintReq_thenSaveToDatabase(){
-        Problem problem = new Problem("");
+    @Order(2)
+    public void givenEmptyStore_whenScheduleMaintenance_thenScheduleIt(){
+        // given
+        assertTrue(dataStore.isEmpty());
         Facility facility = new Building();
         facility.setId(1);
+        Maintenance maintenance = new Maintenance(new Schedule(new Date(1), new Date(2)), facility);
 
-        ArgumentCaptor<MaintenanceRequest> captor = ArgumentCaptor.forClass(MaintenanceRequest.class);
-        doNothing().when(dao).addMaintenanceRequest(captor.capture());
+        // when
+        dao.addMaintenance(maintenance);
 
-        MaintenanceRequest fmr = service.makeMaintenanceReq(problem, facility.getId());
-
-        assertEquals(fmr, captor.getValue());
+        // then
+        assertEquals(1, dataStore.size());
+        assertTrue(dataStore.containsValue(maintenance));
     }
 
     @Test
-    public void listMaintReqTest(){
-        List<MaintenanceRequest> list = new ArrayList<>();
-        list.add(new MaintenanceRequest((long) 1, ""));
+    @Order(3)
+    public void givenMaintenance_whenMakeMaintenanceRequest_thenMakeIt() {
+        Facility facility = new Building();
+        facility.setId(1);
+        Maintenance maintenance = new Maintenance(new Schedule(new Date(1), new Date(2)), facility);
+        MaintenanceRequest maintenanceRequest = new MaintenanceRequest(maintenance.getId(), "");
 
-        when(dao.getAllMaintenanceRequests()).thenReturn(list);
+        dao.addMaintenance(maintenance);
 
-        List<MaintenanceRequest> actual = service.listMaintReq();
-        verify(dao).getAllMaintenanceRequests();
-
-        assertEquals(list, actual);
-        assertEquals(1, actual.size());
+        assertTrue(maintenance.getRequests().isEmpty());
+        dao.addMaintenanceRequest(maintenance.getId(), maintenanceRequest);
+        assertEquals(1, maintenance.getRequests().size());
     }
 }

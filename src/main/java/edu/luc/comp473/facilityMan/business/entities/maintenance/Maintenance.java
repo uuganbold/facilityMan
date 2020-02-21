@@ -11,7 +11,7 @@ import java.util.List;
  * Maintenance entity.
  */
 public class Maintenance {
-    private Long id;
+    private long id;
     private List<Problem> problems = new ArrayList<>();
     private Schedule schedule;
     private Status status;
@@ -23,8 +23,8 @@ public class Maintenance {
      * When we use ORM framework, we are not likely to have constructor like this.
      * But it may be fixed later.
      */
-    public Maintenance(Long id, Schedule schedule, Facility facility) {
-        this.id = id;
+    public Maintenance(Schedule schedule, Facility facility) {
+        this.id = facility.getId();
         this.schedule = schedule;
         this.facility = facility;
         status = Status.SCHEDULED;
@@ -42,7 +42,7 @@ public class Maintenance {
         this.orders.add(order);
     }
 
-    public Long getId(){ return id; }
+    public long getId(){ return id; }
 
     public List<Problem> getProblems() {
         return problems;

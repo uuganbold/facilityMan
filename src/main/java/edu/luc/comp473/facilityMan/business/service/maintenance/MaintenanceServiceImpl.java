@@ -3,9 +3,9 @@ package edu.luc.comp473.facilityMan.business.service.maintenance;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.Maintenance;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.MaintenanceOrder;
 import edu.luc.comp473.facilityMan.persistence.inventory.maintenance.HashMapMaintenanceDao;
+import edu.luc.comp473.facilityMan.persistence.inventory.maintenance.MaintenanceDao;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,24 +13,27 @@ import java.util.List;
  */
 public class MaintenanceServiceImpl implements MaintenanceService {
 
-    private HashMapMaintenanceDao hashMapMaintenanceDao;
+    private MaintenanceDao maintenanceDao;
 
-    public MaintenanceServiceImpl(HashMapMaintenanceDao hashMapMaintenanceDao){
-        this.hashMapMaintenanceDao = hashMapMaintenanceDao;
+    public MaintenanceServiceImpl(MaintenanceDao maintenanceDao){
+        this.maintenanceDao = maintenanceDao;
     }
 
     @Override
     public void scheduleMaintenance(Maintenance maintenance) {
-        hashMapMaintenanceDao.addMaintenance(maintenance);
+        maintenanceDao.addMaintenance(maintenance);
     }
 
     @Override
-    public List<Maintenance> listMaintenance() { return hashMapMaintenanceDao.getAllMaintenance(); }
+    public Maintenance getMaintenance(long id){ return maintenanceDao.getMaintenanceById(id); }
 
     @Override
-    public BigDecimal calcMaintenanceCostForFacility(Long id){
+    public List<Maintenance> listMaintenance() { return maintenanceDao.getAllMaintenance(); }
+
+    @Override
+    public BigDecimal calcMaintenanceCostForFacility(long id){
         BigDecimal costForFacility = new BigDecimal(0);
-        List<Maintenance> allMaintenance = hashMapMaintenanceDao.getAllMaintenance();
+        List<Maintenance> allMaintenance = maintenanceDao.getAllMaintenance();
         for(Maintenance maintenance : allMaintenance){
             if(maintenance.getFacility().getId() == id){
                 List<MaintenanceOrder> maintenanceOrders = maintenance.getOrders();
@@ -43,9 +46,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public int calcDownTimeForFacility(Long id){
+    public int calcDownTimeForFacility(long id){
         int downTimeForFacility = 0;
-        List<Maintenance> allMaintenance = hashMapMaintenanceDao.getAllMaintenance();
+        List<Maintenance> allMaintenance = maintenanceDao.getAllMaintenance();
         for(Maintenance maintenance : allMaintenance){
             if(maintenance.getFacility().getId() == id){
                 downTimeForFacility += maintenance.getSchedule().getNumberOfDays();
