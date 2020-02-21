@@ -8,21 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * FacilityMaintenance entity.
+ * Maintenance entity.
  */
-public class FacilityMaintenance {
+public class Maintenance {
+    private Long id;
     private List<Problem> problems = new ArrayList<>();
     private Schedule schedule;
     private Status status;
     private Facility facility;
-    private List<FacilityMaintenanceRequest> requests = new ArrayList<>();
-    private List<FacilityMaintenanceOrder> orders = new ArrayList<>();
+    private List<MaintenanceRequest> requests = new ArrayList<>();
+    private List<MaintenanceOrder> orders = new ArrayList<>();
 
     /**
      * When we use ORM framework, we are not likely to have constructor like this.
      * But it may be fixed later.
      */
-    public FacilityMaintenance(Schedule schedule, Facility facility) {
+    public Maintenance(Long id, Schedule schedule, Facility facility) {
+        this.id = id;
         this.schedule = schedule;
         this.facility = facility;
         status = Status.SCHEDULED;
@@ -32,13 +34,15 @@ public class FacilityMaintenance {
         this.problems.add(problem);
     }
 
-    public void addRequest(FacilityMaintenanceRequest request) {
+    public void addRequest(MaintenanceRequest request) {
         this.requests.add(request);
     }
 
-    public void addOrder(FacilityMaintenanceOrder order) {
+    public void addOrder(MaintenanceOrder order) {
         this.orders.add(order);
     }
+
+    public Long getId(){ return id; }
 
     public List<Problem> getProblems() {
         return problems;
@@ -56,11 +60,11 @@ public class FacilityMaintenance {
         return facility;
     }
 
-    public List<FacilityMaintenanceRequest> getRequests() {
+    public List<MaintenanceRequest> getRequests() {
         return requests;
     }
 
-    public List<FacilityMaintenanceOrder> getOrders() {
+    public List<MaintenanceOrder> getOrders() {
         return orders;
     }
 }

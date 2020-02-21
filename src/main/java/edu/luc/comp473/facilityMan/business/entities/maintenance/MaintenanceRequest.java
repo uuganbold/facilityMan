@@ -5,12 +5,12 @@ import java.util.Date;
 /**
  * Entity for facility maintenance request.
  */
-public class FacilityMaintenanceRequest {
+public class MaintenanceRequest {
     private Date dateSubmitted;
     private String description;
     private long id;
 
-    public FacilityMaintenanceRequest(Long id, String description) {
+    public MaintenanceRequest(Long id, String description) {
         this.dateSubmitted = new Date();
         this.description = description;
         this.id = id;

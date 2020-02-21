@@ -2,7 +2,7 @@ package edu.luc.comp473.facilityMan.persistence.inventory.maintenance;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Building;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
-import edu.luc.comp473.facilityMan.business.entities.maintenance.FacilityMaintenanceRequest;
+import edu.luc.comp473.facilityMan.business.entities.maintenance.MaintenanceRequest;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
 import edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestService;
 import edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestServiceImpl;
@@ -18,8 +18,8 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class HashMapMaintenanceRequestDaoTest {
-    MaintenanceRequestDao dao = Mockito.mock(MaintenanceRequestDao.class);
+class HashMapMaintenanceDaoTest {
+    MaintenanceDao dao = Mockito.mock(MaintenanceDao.class);
     MaintenanceRequestService service = new MaintenanceRequestServiceImpl(dao);
 
 
@@ -38,23 +38,23 @@ class HashMapMaintenanceRequestDaoTest {
         Facility facility = new Building();
         facility.setId(1);
 
-        ArgumentCaptor<FacilityMaintenanceRequest> captor = ArgumentCaptor.forClass(FacilityMaintenanceRequest.class);
-        doNothing().when(dao).saveFacilityMaintenanceRequest(captor.capture());
+        ArgumentCaptor<MaintenanceRequest> captor = ArgumentCaptor.forClass(MaintenanceRequest.class);
+        doNothing().when(dao).addMaintenanceRequest(captor.capture());
 
-        FacilityMaintenanceRequest fmr = service.makeFacilityMaintenanceReq(problem, facility.getId());
+        MaintenanceRequest fmr = service.makeMaintenanceReq(problem, facility.getId());
 
         assertEquals(fmr, captor.getValue());
     }
 
     @Test
     public void listMaintReqTest(){
-        List<FacilityMaintenanceRequest> list = new ArrayList<>();
-        list.add(new FacilityMaintenanceRequest((long) 1, ""));
+        List<MaintenanceRequest> list = new ArrayList<>();
+        list.add(new MaintenanceRequest((long) 1, ""));
 
-        when(dao.findAllFacilityMaintenanceRequests()).thenReturn(list);
+        when(dao.getAllMaintenanceRequests()).thenReturn(list);
 
-        List<FacilityMaintenanceRequest> actual = service.listMaintReq();
-        verify(dao).findAllFacilityMaintenanceRequests();
+        List<MaintenanceRequest> actual = service.listMaintReq();
+        verify(dao).getAllMaintenanceRequests();
 
         assertEquals(list, actual);
         assertEquals(1, actual.size());
