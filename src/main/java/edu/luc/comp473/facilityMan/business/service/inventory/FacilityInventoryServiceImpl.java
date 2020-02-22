@@ -37,7 +37,7 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
             if (logger.isDebugEnabled()) {
                 logger.debug("Tried to add facility which exists in our database");
             }
-            throw new DuplicatedEntityException("The facility is exists in our facilities already");
+            throw new DuplicatedEntityException("The facility exists in our facilities already");
 
         }
         dao.saveFacility(facility);

@@ -34,12 +34,12 @@ public class HashMapFacilityDaoTest {
 
     private HashMap<Long, Facility> dataStore;
 
-    private FacilityDao dao;
+    private HashMapFacilityDao dao;
 
     @BeforeAll
     public void init() {
-        dataStore = new HashMap<>();
         dao = new HashMapFacilityDao();
+        dataStore = dao.getDataStore();
     }
 
     @Test
@@ -243,7 +243,6 @@ public class HashMapFacilityDaoTest {
         assertTrue(building.getUnits().isEmpty());
         assertNull(unit1.getBuilding());
         assertNull(unit2.getBuilding());
-
     }
 
     @Test
@@ -269,7 +268,5 @@ public class HashMapFacilityDaoTest {
         assertTrue(dataStore.containsValue(building));
         assertFalse(dataStore.containsValue(unit1));
         assertFalse(building.getUnits().contains(unit1));
-        assertNull(unit1.getBuilding());
     }
-
 }

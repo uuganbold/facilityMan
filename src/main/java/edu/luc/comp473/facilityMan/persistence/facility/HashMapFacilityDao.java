@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * HashMap implementation of @see . Singleton pattern to avoid multiple data stores.
  */
 public class HashMapFacilityDao implements FacilityDao {
-    private final Map<Long, Facility> dataStore;
+    private final HashMap<Long, Facility> dataStore;
     private final AtomicLong autoIncrementer = new AtomicLong(0);
 
     public HashMapFacilityDao(){
@@ -48,6 +48,7 @@ public class HashMapFacilityDao implements FacilityDao {
                     dataStore.remove(u.getId());
                 }
                 building.removeUnit(u);
+                u.setBuilding(null);
             }
         } else if (f instanceof Unit) {
             Unit unit = (Unit) f;
@@ -73,5 +74,9 @@ public class HashMapFacilityDao implements FacilityDao {
         synchronized (dataStore) {
             dataStore.put(facility.getId(), facility);
         }
+    }
+
+    public HashMap<Long, Facility> getDataStore(){
+        return dataStore;
     }
 }
