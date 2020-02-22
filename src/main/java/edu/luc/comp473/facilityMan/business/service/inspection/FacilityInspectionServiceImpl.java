@@ -2,9 +2,7 @@ package edu.luc.comp473.facilityMan.business.service.inspection;
 
 import edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspection;
 import edu.luc.comp473.facilityMan.persistence.inventory.inspection.FacilityInspectionDao;
-import edu.luc.comp473.facilityMan.persistence.inventory.inspection.HashMapFacilityInspectionDao;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,17 +10,17 @@ import java.util.List;
  */
 public class FacilityInspectionServiceImpl implements FacilityInspectionService {
 
-    private FacilityInspectionDao hashMapFacilityInspectionDao;
+    private final FacilityInspectionDao facilityInspectionDao;
 
-    public FacilityInspectionServiceImpl(HashMapFacilityInspectionDao hashMapFacilityInspectionDao){
-        this.hashMapFacilityInspectionDao = hashMapFacilityInspectionDao;
+    public FacilityInspectionServiceImpl(FacilityInspectionDao facilityInspectionDao){
+        this.facilityInspectionDao = facilityInspectionDao;
     }
 
     @Override
-    public void addInspection(FacilityInspection inspection) { hashMapFacilityInspectionDao.addFacilityInspection(inspection); }
+    public void addInspection(FacilityInspection inspection) { facilityInspectionDao.addFacilityInspection(inspection); }
 
     @Override
     public List<FacilityInspection> listInspections() {
-        return hashMapFacilityInspectionDao.getAllFacilityInspections();
+        return facilityInspectionDao.getAllFacilityInspections();
     }
 }
