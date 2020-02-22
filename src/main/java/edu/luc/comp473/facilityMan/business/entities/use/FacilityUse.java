@@ -8,13 +8,9 @@ import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
  */
 public class FacilityUse {
 
+    private long id;
     private Facility facility;
     private Schedule schedule;
-
-    public FacilityUse(Facility facility, Schedule schedule) {
-        this.facility = facility;
-        this.schedule = schedule;
-    }
 
     public Facility getFacility() {
         return facility;
@@ -30,6 +26,14 @@ public class FacilityUse {
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
 }
