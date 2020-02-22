@@ -48,6 +48,8 @@ public class Maintenance {
         return problems;
     }
 
+    public void setSchedule(Schedule schedule){ this.schedule = schedule; }
+
     public Schedule getSchedule() {
         return schedule;
     }

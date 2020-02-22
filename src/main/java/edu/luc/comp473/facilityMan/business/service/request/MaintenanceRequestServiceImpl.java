@@ -26,8 +26,5 @@ public class MaintenanceRequestServiceImpl implements MaintenanceRequestService 
     }
 
     @Override
-    public MaintenanceRequest getMaintenanceRequest(long id){ return maintenanceDao.getMaintenanceRequestById(id); }
-
-    @Override
-    public List<MaintenanceRequest> getAllMaintenanceRequests() { return maintenanceDao.getAllMaintenanceRequests(); }
+    public List<MaintenanceRequest> listMaintRequests() { return maintenanceDao.getAllMaintenanceRequests(); }
 }

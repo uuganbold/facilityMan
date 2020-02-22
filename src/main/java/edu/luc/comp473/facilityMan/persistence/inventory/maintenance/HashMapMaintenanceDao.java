@@ -4,6 +4,7 @@ import edu.luc.comp473.facilityMan.business.entities.maintenance.Maintenance;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.MaintenanceRequest;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 
+import javax.xml.crypto.Data;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -61,12 +62,27 @@ public class HashMapMaintenanceDao implements MaintenanceDao {
     }
 
     @Override
-    public void removeMaintenanceRequest(MaintenanceRequest maintenanceRequest) {
-        if (!dataStore.containsKey(maintenanceRequest.getId())) {
+    public void removeMaintenance(long id){
+        if(!dataStore.containsKey(id)){
             return;
         }
-        synchronized (dataStore) {
-            dataStore.remove(maintenanceRequest.getId());
+        synchronized(dataStore){
+            dataStore.remove(id);
         }
+    }
+
+    @Override
+    public void removeMaintenanceRequest(long id) {
+        List<Maintenance> allMaintenance = new ArrayList<>(dataStore.values());
+        for(Maintenance maintenance : allMaintenance){
+            for(MaintenanceRequest maintenanceRequest : maintenance.getRequests()){
+                if(maintenanceRequest.getId() == id){
+                    List<MaintenanceRequest> maintenanceRequests = maintenance.getRequests();
+                    maintenanceRequests.remove(maintenanceRequest);
+                    return;
+                }
+            }
+        }
+        throw new DataAccessException("Maintenance request not found with id: " + id);
     }
 }

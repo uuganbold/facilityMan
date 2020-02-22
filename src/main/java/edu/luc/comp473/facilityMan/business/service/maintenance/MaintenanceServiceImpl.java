@@ -1,11 +1,12 @@
 package edu.luc.comp473.facilityMan.business.service.maintenance;
 
 import edu.luc.comp473.facilityMan.business.entities.maintenance.Maintenance;
+import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.MaintenanceOrder;
-import edu.luc.comp473.facilityMan.persistence.inventory.maintenance.HashMapMaintenanceDao;
+import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 import edu.luc.comp473.facilityMan.persistence.inventory.maintenance.MaintenanceDao;
-
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.List;
 
 /**
@@ -25,9 +26,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public Maintenance getMaintenance(long id){ return maintenanceDao.getMaintenanceById(id); }
-
-    @Override
     public List<Maintenance> listMaintenance() { return maintenanceDao.getAllMaintenance(); }
 
     @Override
@@ -38,11 +36,12 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             if(maintenance.getFacility().getId() == id){
                 List<MaintenanceOrder> maintenanceOrders = maintenance.getOrders();
                 for(MaintenanceOrder maintenanceOrder : maintenanceOrders){
-                    costForFacility.add(maintenanceOrder.getTotalCost());
+                    costForFacility = costForFacility.add(maintenanceOrder.getTotalCost(), new MathContext(2));
                 }
+                return costForFacility;
             }
         }
-        return costForFacility;
+        throw new DataAccessException("Facility not found with id: " + id);
     }
 
     @Override
@@ -52,8 +51,30 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         for(Maintenance maintenance : allMaintenance){
             if(maintenance.getFacility().getId() == id){
                 downTimeForFacility += maintenance.getSchedule().getNumberOfDays();
+                return downTimeForFacility;
             }
         }
-        return downTimeForFacility;
+        throw new DataAccessException("Facility not found with id: " + id);
+    }
+
+    @Override
+    //TODO figure out what this method is supposed to do
+    public int calcProblemRateForFacility(long id){
+        for(Maintenance maintenance : maintenanceDao.getAllMaintenance()){
+            if(maintenance.getFacility().getId() == id){
+                return maintenance.getProblems().size();
+            }
+        }
+        throw new DataAccessException("Facility not found with id: " + id);
+    }
+
+    @Override
+    public List<Problem> listFacilityProblems(long id){
+        for(Maintenance maintenance : maintenanceDao.getAllMaintenance()){
+            if(maintenance.getFacility().getId() == id){
+                return maintenance.getProblems();
+            }
+        }
+        throw new DataAccessException("Facility not found with id: " + id);
     }
 }

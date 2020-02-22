@@ -18,5 +18,7 @@ public interface MaintenanceDao {
 
     List<MaintenanceRequest> getAllMaintenanceRequests();
 
-    void removeMaintenanceRequest(MaintenanceRequest maintenanceRequest);
+    void removeMaintenance(long id);
+
+    void removeMaintenanceRequest(long id);
 }
