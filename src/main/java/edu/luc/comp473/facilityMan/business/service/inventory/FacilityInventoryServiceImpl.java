@@ -3,7 +3,7 @@ package edu.luc.comp473.facilityMan.business.service.inventory;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 import edu.luc.comp473.facilityMan.business.exceptions.DuplicatedEntityException;
-import edu.luc.comp473.facilityMan.persistence.inventory.facility.FacilityDao;
+import edu.luc.comp473.facilityMan.persistence.facility.FacilityDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,9 +1,8 @@
 package edu.luc.comp473.facilityMan.business.service.request;
 
-import edu.luc.comp473.facilityMan.business.entities.maintenance.FacilityMaintenance;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.FacilityMaintenanceRequest;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
-import edu.luc.comp473.facilityMan.persistence.inventory.maintenance.MaintenanceRequestDao;
+import edu.luc.comp473.facilityMan.persistence.maintenance.MaintenanceRequestDao;
 
 import java.util.List;
 

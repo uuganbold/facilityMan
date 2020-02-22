@@ -1,4 +1,4 @@
-package edu.luc.comp473.facilityMan.persistence.inventory.facility;
+package edu.luc.comp473.facilityMan.persistence.facility;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 

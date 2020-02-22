@@ -1,5 +1,7 @@
-package edu.luc.comp473.facilityMan.persistence.inventory.maintenance;
+package edu.luc.comp473.facilityMan.persistence.maintenance;
 
+import edu.luc.comp473.facilityMan.business.entities.facility.Building;
+import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.FacilityMaintenanceRequest;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
 import edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestService;

@@ -3,7 +3,7 @@ package edu.luc.comp473.facilityMan.business.service.information;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
-import edu.luc.comp473.facilityMan.persistence.inventory.facility.FacilityDao;
+import edu.luc.comp473.facilityMan.persistence.facility.FacilityDao;
 
 /**
  * Simple @see FacilityInformationService implementation depending on DAO.
