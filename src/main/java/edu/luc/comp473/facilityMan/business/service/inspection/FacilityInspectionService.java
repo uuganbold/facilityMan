@@ -8,7 +8,7 @@ import java.util.List;
  * Interface defining behaviours regarding FacilityInspection.
  */
 public interface FacilityInspectionService {
-    List<FacilityInspection> listInspection(long id);
-
     void addInspection(FacilityInspection inspection);
+
+    List<FacilityInspection> listInspections();
 }
