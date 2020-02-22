@@ -12,5 +12,7 @@ public interface FacilityInventoryService {
 
     void addNewFacility(Facility facility);
 
-    boolean removeFacility(Long id);
+    boolean removeFacility(long id);
+
+    Facility getFacility(long id);
 }

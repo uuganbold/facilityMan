@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Simple @see FacilityInventoryService implementation depending
- * on @see @FacilityInventoryDao.
+ * on @see @FacilityDao.
  */
 public class FacilityInventoryServiceImpl implements FacilityInventoryService {
     private final Logger logger = LoggerFactory.getLogger(FacilityInventoryServiceImpl.class);
@@ -44,7 +44,7 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
     }
 
     @Override
-    public boolean removeFacility(Long id) {
+    public boolean removeFacility(long id) {
         boolean result;
         try {
             Facility facility = dao.findFacilityById(id);
@@ -67,5 +67,10 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
             result = false;
         }
         return result;
+    }
+
+    @Override
+    public Facility getFacility(long id) {
+        return dao.findFacilityById(id);
     }
 }

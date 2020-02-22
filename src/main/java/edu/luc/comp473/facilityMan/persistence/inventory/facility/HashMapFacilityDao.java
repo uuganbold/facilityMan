@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * HashMap implementation of @see FacilityDao. Singleton pattern to avoid multiple data stores.
+ * HashMap implementation of @see . Singleton pattern to avoid multiple data stores.
  */
 public class HashMapFacilityDao implements FacilityDao {
     private final Map<Long, Facility> dataStore;

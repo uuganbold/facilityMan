@@ -16,6 +16,10 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.luc.comp473.facilityMan.business.entities.facility.Building;
+import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
+import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
+import edu.luc.comp473.facilityMan.persistence.inventory.facility.FacilityDao;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -31,7 +35,7 @@ public class FacilityInventoryServiceTest {
     @Test
     public void givenFacility_whenAddNewFacility_thenSaveToDataBase() {
         // given
-        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityDao dao = Mockito.mock(FacilityDao.class);
         FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
         Facility facility = new Building();
 
@@ -48,7 +52,7 @@ public class FacilityInventoryServiceTest {
     @Test
     public void givenDuplicatedFacility_whenAddNewFacility_thenThrowDuplicatedEntityException() {
         // given
-        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityDao dao = Mockito.mock(FacilityDao.class);
         FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
         Facility facility = new Building();
         facility.setId(10);
@@ -63,7 +67,7 @@ public class FacilityInventoryServiceTest {
     @Test
     public void givenEmptyList_whenListFacilities_thenForwardEmptyList() {
         // given
-        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityDao dao = Mockito.mock(FacilityDao.class);
         FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
 
         when(dao.findAllFacilities()).thenReturn(new ArrayList<Facility>());
@@ -78,11 +82,11 @@ public class FacilityInventoryServiceTest {
     @Test
     public void givenList_whenListFacilities_thenForwardList() {
         // given
-        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityDao dao = Mockito.mock(FacilityDao.class);
         FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
         List<Facility> list = new ArrayList<>();
         list.add(new Building());
-        list.add(new Unit());
+        list.add(new Unit(new Building()));
 
         when(dao.findAllFacilities()).thenReturn(list);
 
@@ -97,12 +101,12 @@ public class FacilityInventoryServiceTest {
     @Test
     public void givenFacility_whenGetFacilities_thenForwardFacility() {
         // given
-        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityDao dao = Mockito.mock(FacilityDao.class);
         FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
 
         Building building = new Building();
         building.setId(10);
-        Unit unit = new Unit();
+        Unit unit = new Unit(building);
         unit.setId(11);
 
         when(dao.findFacilityById(building.getId())).thenReturn(building);
@@ -120,7 +124,7 @@ public class FacilityInventoryServiceTest {
     @Test
     public void givenNullFacility_whenGetFacilities_thenForwardNull() {
         // given
-        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityDao dao = Mockito.mock(FacilityDao.class);
         FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
 
         when(dao.findFacilityById(anyLong())).thenReturn(null);
@@ -135,24 +139,24 @@ public class FacilityInventoryServiceTest {
     @Test
     public void givenDataAccessException_whenRemoveFacility_thenReturnFalse() {
         // given
-        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityDao dao = Mockito.mock(FacilityDao.class);
         FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
 
         when(dao.findFacilityById(anyLong())).thenReturn(new Building());
-        doThrow(DataAccessException.class).when(dao).removeFacility(any(Facility.class));
+        doThrow(DataAccessException.class).when(dao).removeFacility(any(Facility.class).getId());
 
         // when
         boolean removed = service.removeFacility(10L);
 
         // then
-        verify(dao).removeFacility(any(Facility.class));
+        verify(dao).removeFacility(any(Facility.class).getId());
         assertFalse(removed);
     }
 
     @Test
     public void givenFacilityNotExists_whenRemoveFacility_thenReturnFalse() {
         // given
-        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityDao dao = Mockito.mock(FacilityDao.class);
         FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
 
         when(dao.findFacilityById(anyLong())).thenReturn(null);
@@ -161,7 +165,7 @@ public class FacilityInventoryServiceTest {
         boolean removed = service.removeFacility(10L);
 
         // then
-        verify(dao, times(0)).removeFacility(any(Facility.class));
+        verify(dao, times(0)).removeFacility(any(Facility.class).getId());
         verify(dao).findFacilityById(10L);
         assertFalse(removed);
     }
@@ -169,7 +173,7 @@ public class FacilityInventoryServiceTest {
     @Test
     public void givenFacility_whenRemoveFacility_thenRemoveItAndReturnTrue() {
         // given
-        FacilityInventoryDao dao = Mockito.mock(FacilityInventoryDao.class);
+        FacilityDao dao = Mockito.mock(FacilityDao.class);
         FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
 
         Facility facility = new Building();
@@ -178,7 +182,7 @@ public class FacilityInventoryServiceTest {
         when(dao.findFacilityById(facility.getId())).thenReturn(facility);
 
         ArgumentCaptor<Facility> captor = ArgumentCaptor.forClass(Facility.class);
-        doNothing().when(dao).removeFacility(captor.capture());
+        doNothing().when(dao).removeFacility(captor.capture().getId());
 
         // when
         boolean removed = service.removeFacility(facility.getId());
@@ -186,7 +190,7 @@ public class FacilityInventoryServiceTest {
         // then
         assertEquals(facility, captor.getValue());
         verify(dao).findFacilityById(facility.getId());
-        verify(dao).removeFacility(facility);
+        verify(dao).removeFacility(facility.getId());
         assertTrue(removed);
     }
 }

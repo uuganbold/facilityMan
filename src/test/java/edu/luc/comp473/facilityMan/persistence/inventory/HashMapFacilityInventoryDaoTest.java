@@ -21,20 +21,20 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 
 /**
- * Tests behaviours regarding @see HashMapFacilityInventoryDao.
+ * Tests behaviours regarding @see HashMapFacilityDao.
  */
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
-public class HashMapFacilityInventoryDaoTest {
+public class HashMapFacilityDaoTest {
 
     private HashMap<Long, Facility> dataStore;
 
-    private FacilityInventoryDao dao;
+    private FacilityDao dao;
 
     @BeforeAll
     public void init() {
         dataStore = new HashMap<>();
-        dao = new HashMapFacilityInventoryDao(dataStore);
+        dao = new HashMapFacilityDao(dataStore);
     }
 
     @Test
