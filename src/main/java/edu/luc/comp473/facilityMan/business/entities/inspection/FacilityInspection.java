@@ -8,6 +8,7 @@ import edu.luc.comp473.facilityMan.business.entities.util.Status;
  * Entity for facility inspection.
  */
 public class FacilityInspection {
+    private long id;
     private InspectionType inspectionType;
     private Schedule schedule;
     private Status status;
@@ -22,11 +23,14 @@ public class FacilityInspection {
      * @param facility
      */
     public FacilityInspection(InspectionType inspectionType, Schedule schedule, Facility facility) {
+        this.id = facility.getId();
         this.inspectionType = inspectionType;
         this.schedule = schedule;
         this.facility = facility;
         this.status = Status.SCHEDULED;
     }
+
+    public long getId(){ return id; }
 
     public InspectionType getInspectionType() {
         return inspectionType;
