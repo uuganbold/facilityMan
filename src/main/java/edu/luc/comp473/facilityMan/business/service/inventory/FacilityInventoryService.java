@@ -1,7 +1,6 @@
 package edu.luc.comp473.facilityMan.business.service.inventory;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
-import edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail;
 
 import java.util.List;
 
@@ -11,15 +10,9 @@ import java.util.List;
 public interface FacilityInventoryService {
     List<Facility> listFacilities();
 
-    Facility getFacility(long id);
-
     void addNewFacility(Facility facility);
 
-    boolean removeFacility(Long id);
+    boolean removeFacility(long id);
 
-    FacilityDetail getFacilityInformation(Long id);
-
-    void addFacilityDetail(Long id, FacilityDetail detail);
-
-    int requestAvailableCapacity(Long id);
+    Facility getFacility(long id);
 }

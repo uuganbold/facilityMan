@@ -1,34 +1,30 @@
-package edu.luc.comp473.facilityMan.persistence.inventory.facility;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.ArrayList;
+package edu.luc.comp473.facilityMan.persistence.facility;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Building;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
- * HashMap implementation of @see FacilityInventoryDao.
+ * HashMap implementation of @see . Singleton pattern to avoid multiple data stores.
  */
-public class HashMapFacilityInventoryDao implements FacilityInventoryDao {
-    private final Map<Long, Facility> dataStore;
+public class HashMapFacilityDao implements FacilityDao {
+    private final HashMap<Long, Facility> dataStore;
     private final AtomicLong autoIncrementer = new AtomicLong(0);
 
-    public HashMapFacilityInventoryDao() {
+    public HashMapFacilityDao(){
         dataStore = new HashMap<>();
-    }
-
-    public HashMapFacilityInventoryDao(HashMap<Long, Facility> dataStore) {
-        this.dataStore = dataStore;
     }
 
     @Override
     public List<Facility> findAllFacilities() {
-        return new ArrayList<Facility>(dataStore.values());
+        return new ArrayList<>(dataStore.values());
     }
 
     @Override
@@ -37,12 +33,14 @@ public class HashMapFacilityInventoryDao implements FacilityInventoryDao {
     }
 
     @Override
-    public void removeFacility(Facility facility) {
-        if (!dataStore.containsKey(facility.getId())) {
-            return;
+    public boolean removeFacility(long id) {
+        if (!dataStore.containsKey(id)) {
+            return false;
         }
-        if (facility instanceof Building) {
-            Building building = (Building) facility;
+        Facility f = dataStore.get(id);
+
+        if (f instanceof Building) {
+            Building building = (Building) f;
             ArrayList<Unit> units = building.getUnits();
             while (!units.isEmpty()) {
                 Unit u = units.get(units.size() - 1);
@@ -50,14 +48,16 @@ public class HashMapFacilityInventoryDao implements FacilityInventoryDao {
                     dataStore.remove(u.getId());
                 }
                 building.removeUnit(u);
+                u.setBuilding(null);
             }
-        } else if (facility instanceof Unit) {
-            Unit unit = (Unit) facility;
+        } else if (f instanceof Unit) {
+            Unit unit = (Unit) f;
             unit.getBuilding().removeUnit(unit);
         }
         synchronized (dataStore) {
-            dataStore.remove(facility.getId());
+            dataStore.remove(id);
         }
+        return true;
     }
 
     @Override
@@ -74,7 +74,9 @@ public class HashMapFacilityInventoryDao implements FacilityInventoryDao {
         synchronized (dataStore) {
             dataStore.put(facility.getId(), facility);
         }
-
     }
 
+    public HashMap<Long, Facility> getDataStore(){
+        return dataStore;
+    }
 }

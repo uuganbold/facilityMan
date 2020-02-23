@@ -1,26 +1,24 @@
 package edu.luc.comp473.facilityMan.business.service.inventory;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
-import edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 import edu.luc.comp473.facilityMan.business.exceptions.DuplicatedEntityException;
-import edu.luc.comp473.facilityMan.persistence.inventory.facility.FacilityInventoryDao;
-
-import java.util.List;
-
+import edu.luc.comp473.facilityMan.persistence.facility.FacilityDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
  * Simple @see FacilityInventoryService implementation depending
- * on @see @FacilityInventoryDao.
+ * on @see @FacilityDao.
  */
 public class FacilityInventoryServiceImpl implements FacilityInventoryService {
     private final Logger logger = LoggerFactory.getLogger(FacilityInventoryServiceImpl.class);
 
-    private FacilityInventoryDao dao;
+    private FacilityDao dao;
 
-    public FacilityInventoryServiceImpl(FacilityInventoryDao dao) {
+    public FacilityInventoryServiceImpl(FacilityDao dao) {
         this.dao = dao;
     }
 
@@ -33,29 +31,21 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
     }
 
     @Override
-    public Facility getFacility(long id) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Reading facility with id:" + id);
-        }
-        return dao.findFacilityById(id);
-    }
-
-    @Override
     public void addNewFacility(Facility facility) {
         Facility facility2 = dao.findFacilityById(facility.getId());
         if (facility2 != null) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Tried to add facility which exists in our database");
             }
-            throw new DuplicatedEntityException("The facility is exists in our facilities already");
+            throw new DuplicatedEntityException("The facility exists in our facilities already");
 
         }
         dao.saveFacility(facility);
     }
 
     @Override
-    public boolean removeFacility(Long id) {
-        boolean result = false;
+    public boolean removeFacility(long id) {
+        boolean result;
         try {
             Facility facility = dao.findFacilityById(id);
             if (facility == null) {
@@ -64,7 +54,7 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
                 }
                 result = false;
             } else {
-                dao.removeFacility(facility);
+                dao.removeFacility(id);
                 if (logger.isDebugEnabled()) {
                     logger.debug("Facility removed:" + id);
                 }
@@ -80,34 +70,7 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
     }
 
     @Override
-    public void addFacilityDetail(Long id, FacilityDetail detail) {
-        // TODO Auto-generated method stub
-        Facility facility = dao.findFacilityById(id);
-        if(facility != null){
-            facility.setDetail(detail);
-        } else{
-            throw new DataAccessException("Tried adding detail to a facility which doesn't exist.");
-        }
+    public Facility getFacility(long id) {
+        return dao.findFacilityById(id);
     }
-
-    @Override
-    public FacilityDetail getFacilityInformation(Long id) {
-        // TODO Auto-generated method stub
-        Facility facility = dao.findFacilityById(id);
-        if(facility != null){
-            return facility.getDetail();
-        } else{
-            throw new DataAccessException("Tried retrieving information from facility which doesn't exist.");
-        }
-    }
-
-    @Override
-    public int requestAvailableCapacity(Long id) {
-        Facility facility = dao.findFacilityById(id);
-        if(facility != null){
-            return facility.getCapacity();
-        }
-        throw new DataAccessException("Tried retrieving capacity from facility which doesn't exist.");
-    }
-
 }
