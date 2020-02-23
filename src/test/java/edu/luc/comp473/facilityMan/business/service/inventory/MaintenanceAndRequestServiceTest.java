@@ -11,15 +11,18 @@ import edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceServi
 import edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceServiceImpl;
 import edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestService;
 import edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestServiceImpl;
-import edu.luc.comp473.facilityMan.persistence.inventory.maintenance.HashMapMaintenanceDao;
-import edu.luc.comp473.facilityMan.persistence.inventory.maintenance.MaintenanceDao;
+import edu.luc.comp473.facilityMan.persistence.maintenance.HashMapMaintenanceDao;
+import edu.luc.comp473.facilityMan.persistence.maintenance.MaintenanceDao;
 import org.junit.jupiter.api.*;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test cases regarding MaintenanceService and MaintenanceRequestService

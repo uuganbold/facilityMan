@@ -1,29 +1,18 @@
 package edu.luc.comp473.facilityMan.persistence.facility;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import edu.luc.comp473.facilityMan.business.entities.facility.Building;
+import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
+import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
+import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import edu.luc.comp473.facilityMan.business.entities.facility.Building;
-import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
-import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
-import edu.luc.comp473.facilityMan.persistence.facility.FacilityDao;
-import edu.luc.comp473.facilityMan.persistence.facility.HashMapFacilityDao;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
-
-import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests behaviours regarding @see HashMapFacilityDao.
