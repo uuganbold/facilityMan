@@ -30,4 +30,17 @@ public class FacilityDetail {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public FacilityDetail(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public FacilityDetail() {
+    }
+
+    @Override
+    public String toString() {
+        return "FacilityDetail [name=" + name + ", description=" + description + "]";
+    }
 }

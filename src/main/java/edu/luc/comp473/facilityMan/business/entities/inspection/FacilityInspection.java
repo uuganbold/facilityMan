@@ -30,7 +30,9 @@ public class FacilityInspection {
         this.status = Status.SCHEDULED;
     }
 
-    public long getId(){ return id; }
+    public long getId() {
+        return id;
+    }
 
     public InspectionType getInspectionType() {
         return inspectionType;
@@ -51,4 +53,11 @@ public class FacilityInspection {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "FacilityInspection [facility=" + facility + ", id=" + id + ", inspectionType=" + inspectionType
+                + ", schedule=" + schedule + ", status=" + status + "]";
+    }
+
 }
