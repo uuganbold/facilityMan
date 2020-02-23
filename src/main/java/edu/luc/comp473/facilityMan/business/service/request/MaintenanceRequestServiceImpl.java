@@ -2,7 +2,7 @@ package edu.luc.comp473.facilityMan.business.service.request;
 
 import edu.luc.comp473.facilityMan.business.entities.maintenance.MaintenanceRequest;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
-import edu.luc.comp473.facilityMan.persistence.inventory.maintenance.MaintenanceDao;
+import edu.luc.comp473.facilityMan.persistence.maintenance.MaintenanceDao;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;

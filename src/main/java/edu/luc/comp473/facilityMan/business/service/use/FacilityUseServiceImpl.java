@@ -2,8 +2,8 @@ package edu.luc.comp473.facilityMan.business.service.use;
 
 import edu.luc.comp473.facilityMan.business.entities.use.FacilityUse;
 import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
+import edu.luc.comp473.facilityMan.persistence.use.UseDao;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,46 +12,50 @@ import java.util.List;
  * Simple @see FacilityUseService implementation depending on DAO.
  */
 public class FacilityUseServiceImpl implements FacilityUseService {
+    private UseDao useDao;
 
-    private List<FacilityUse> uses = new ArrayList<>();
+    public FacilityUseServiceImpl(UseDao useDao){
+        this.useDao = useDao;
+    }
 
     @Override
-    // TODO: Complete this implementation
     public boolean isInUseDuringInterval(long id, Date start, Date end) {
+        List<FacilityUse> uses = useDao.getAllUses();
+
+        for (FacilityUse use: uses){
+            if (use.getId() == id) {
+                if (use.getSchedule().getStartDate().after(start) &&
+                        use.getSchedule().getEndDate().before(end))
+                    return true;
+            }
+        }
 
         return false;
-
     }
 
     @Override
-    public FacilityUse assignFacilityToUse(long id, Schedule s) {
-        /*
-         * Facility f = FacilityInventoryServiceImpl.getInstance().getFacility(id); if
-         * (f != null) { FacilityUse use = new FacilityUse(f, s); uses.add(use); return
-         * use; }
-         */
-
-        return null;
+    public void assignFacilityToUse(long id, Schedule s) {
+        FacilityUse use = new FacilityUse();
+        use.setFacility(id);
+        use.setSchedule(s);
+        useDao.addUse(use);
     }
 
     @Override
-    public boolean vacateFacility(long id) {
-        /*
-         * Facility f = FacilityInventoryServiceImpl.getInstance().getFacility(id); if
-         * (f != null) { for (FacilityUse use : uses) { if (use.getFacility().getId() ==
-         * id) { uses.remove(use); return true; } } }
-         */
-        return false;
+    public void vacateFacility(long id) {
+        List<FacilityUse> uses = useDao.getAllUses();
+        uses.removeIf(use -> use.getId() == id);
     }
 
     @Override
     public List<FacilityUse> listActualUsage() {
-        return uses;
+        return useDao.getAllUses();
     }
 
     @Override
-    // TODO: Complete this implementation
-    public BigDecimal calcUsageRate(FacilityUse use) {
-        return null;
+    public long calcUsageRate(FacilityUse use) {
+        Schedule schedule = use.getSchedule();
+        long length = schedule.getNumberOfDays();
+        return length/365;
     }
 }

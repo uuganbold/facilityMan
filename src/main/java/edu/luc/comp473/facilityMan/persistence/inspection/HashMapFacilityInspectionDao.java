@@ -1,4 +1,4 @@
-package edu.luc.comp473.facilityMan.persistence.inventory.inspection;
+package edu.luc.comp473.facilityMan.persistence.inspection;
 
 import edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspection;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;

@@ -1,10 +1,11 @@
 package edu.luc.comp473.facilityMan.business.service.maintenance;
 
 import edu.luc.comp473.facilityMan.business.entities.maintenance.Maintenance;
-import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.MaintenanceOrder;
+import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
-import edu.luc.comp473.facilityMan.persistence.inventory.maintenance.MaintenanceDao;
+import edu.luc.comp473.facilityMan.persistence.maintenance.MaintenanceDao;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.List;

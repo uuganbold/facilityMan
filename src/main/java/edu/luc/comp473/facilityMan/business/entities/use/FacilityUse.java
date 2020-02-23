@@ -1,6 +1,5 @@
 package edu.luc.comp473.facilityMan.business.entities.use;
 
-import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
 
 /**
@@ -9,15 +8,15 @@ import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
 public class FacilityUse {
 
     private long id;
-    private Facility facility;
+    private long facilityId;
     private Schedule schedule;
 
-    public Facility getFacility() {
-        return facility;
+    public long getFacility() {
+        return facilityId;
     }
 
-    public void setFacility(Facility facility) {
-        this.facility = facility;
+    public void setFacility(long id) {
+        this.facilityId = id;
     }
 
     public Schedule getSchedule() {

@@ -4,22 +4,12 @@ import edu.luc.comp473.facilityMan.business.entities.facility.Building;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail;
 import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
-import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
-import edu.luc.comp473.facilityMan.business.exceptions.DuplicatedEntityException;
-import edu.luc.comp473.facilityMan.business.service.inventory.FacilityInventoryService;
-import edu.luc.comp473.facilityMan.business.service.inventory.FacilityInventoryServiceImpl;
 import edu.luc.comp473.facilityMan.persistence.facility.FacilityDao;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 /**
  * Test cases regarding FacilityInformationService.

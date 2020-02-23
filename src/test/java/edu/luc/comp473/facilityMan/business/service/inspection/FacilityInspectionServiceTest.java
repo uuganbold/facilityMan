@@ -5,19 +5,17 @@ import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspection;
 import edu.luc.comp473.facilityMan.business.entities.inspection.InspectionType;
 import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
-import edu.luc.comp473.facilityMan.business.entities.util.Status;
-import edu.luc.comp473.facilityMan.persistence.inventory.inspection.FacilityInspectionDao;
-import edu.luc.comp473.facilityMan.persistence.inventory.inspection.HashMapFacilityInspectionDao;
+import edu.luc.comp473.facilityMan.persistence.inspection.FacilityInspectionDao;
+import edu.luc.comp473.facilityMan.persistence.inspection.HashMapFacilityInspectionDao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FacilityInspectionServiceTest {
     private FacilityInspectionDao dao;
