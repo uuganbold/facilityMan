@@ -40,4 +40,9 @@ public class Schedule {
         this.endDate = endDate;
     }
 
+    @Override
+    public String toString() {
+        return "Schedule [endDate=" + endDate + ", startDate=" + startDate + "]";
+    }
+
 }

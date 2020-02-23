@@ -38,4 +38,10 @@ public abstract class Facility {
     public void setDetail(FacilityDetail detail) {
         this.detail = detail;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [id=" + id + ", capacity=" + getCapacity() + ", detail=" + detail + "]";
+    }
+
 }
