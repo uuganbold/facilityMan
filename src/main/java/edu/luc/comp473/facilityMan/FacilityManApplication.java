@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Building;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
+import edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail;
 import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
 import edu.luc.comp473.facilityMan.business.service.information.FacilityInformationService;
 import edu.luc.comp473.facilityMan.business.service.information.FacilityInformationServiceImpl;
@@ -61,6 +62,7 @@ public class FacilityManApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		init();
 		facilityInventory();
+		facilityDetail();
 	}
 
 	private void facilityInventory() {
@@ -77,9 +79,23 @@ public class FacilityManApplication implements CommandLineRunner {
 		facilityService.addNewFacility(unit);
 
 		List<Facility> facilities = facilityService.listFacilities();
-		for (Facility f : facilities) {
-			System.out.printf("%s { id:%d, capacity:%d }%n", f.getClass().getSimpleName(), f.getId(), f.getCapacity());
-		}
+		facilities.forEach(f -> System.out.println(f));
+
+		Facility facility = facilityService.getFacility(2L);
+		System.out.println(facility);
+	}
+
+	private void facilityDetail() {
+		informationService.addFacilityDetail(1L,
+				new FacilityDetail("Cuneo", "Building located at center of the campus"));
+		informationService.addFacilityDetail(2L, new FacilityDetail("212", "Lecture hall"));
+		informationService.addFacilityDetail(3L, new FacilityDetail("313", "Lecture hall"));
+
+		List<Facility> facilities = facilityService.listFacilities();
+		facilities.forEach(f -> System.out.println(f));
+
+		System.out.println(informationService.getFacilityInformation(3L));
+		System.out.println("Available capacity:" + informationService.requestAvailableCapacity(3L));
 
 	}
 

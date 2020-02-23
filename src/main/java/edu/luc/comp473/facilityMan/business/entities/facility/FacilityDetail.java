@@ -38,4 +38,9 @@ public class FacilityDetail {
 
     public FacilityDetail() {
     }
+
+    @Override
+    public String toString() {
+        return "FacilityDetail [name=" + name + ", description=" + description + "]";
+    }
 }
