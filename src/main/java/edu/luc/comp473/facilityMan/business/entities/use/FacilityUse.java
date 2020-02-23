@@ -35,4 +35,9 @@ public class FacilityUse {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "FacilityUse [facilityId=" + facilityId + ", id=" + id + ", schedule=" + schedule + "]";
+    }
+
 }

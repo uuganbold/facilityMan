@@ -42,13 +42,17 @@ public class Maintenance {
         this.orders.add(order);
     }
 
-    public long getId(){ return id; }
+    public long getId() {
+        return id;
+    }
 
     public List<Problem> getProblems() {
         return problems;
     }
 
-    public void setSchedule(Schedule schedule){ this.schedule = schedule; }
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
 
     public Schedule getSchedule() {
         return schedule;
@@ -69,4 +73,11 @@ public class Maintenance {
     public List<MaintenanceOrder> getOrders() {
         return orders;
     }
+
+    @Override
+    public String toString() {
+        return "Maintenance [facility=" + facility + ", id=" + id + ", orders=" + orders + ", problems=" + problems
+                + ", requests=" + requests + ", schedule=" + schedule + ", status=" + status + "]";
+    }
+
 }
