@@ -1,5 +1,7 @@
 package edu.luc.comp473.facilityMan;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,6 +14,9 @@ import edu.luc.comp473.facilityMan.business.entities.facility.Building;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail;
 import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
+import edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspection;
+import edu.luc.comp473.facilityMan.business.entities.inspection.InspectionType;
+import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
 import edu.luc.comp473.facilityMan.business.service.information.FacilityInformationService;
 import edu.luc.comp473.facilityMan.business.service.information.FacilityInformationServiceImpl;
 import edu.luc.comp473.facilityMan.business.service.inspection.FacilityInspectionService;
@@ -63,6 +68,21 @@ public class FacilityManApplication implements CommandLineRunner {
 		init();
 		facilityInventory();
 		facilityDetail();
+		facilityInspection();
+	}
+
+	private void facilityInspection() {
+		Facility facility = facilityService.getFacility(1L);
+		inspectionService.addInspection(new FacilityInspection(InspectionType.FIRE,
+				new Schedule(new Date(2020, 2, 1), new Date(2020, 2, 3)), facility));
+
+		facility = facilityService.getFacility(2L);
+		inspectionService.addInspection(new FacilityInspection(InspectionType.PEST,
+				new Schedule(new Date(2020, 3, 2), new Date(2020, 3, 7)), facility));
+
+		List<FacilityInspection> inspections = inspectionService.listInspections();
+		inspections.forEach(i -> System.out.println(i));
+
 	}
 
 	private void facilityInventory() {
