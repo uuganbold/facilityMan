@@ -1,4 +1,4 @@
-package edu.luc.comp473.facilityMan.persistence.inventory;
+package edu.luc.comp473.facilityMan.persistence.facility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -10,8 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import edu.luc.comp473.facilityMan.persistence.inventory.facility.FacilityInventoryDao;
-import edu.luc.comp473.facilityMan.persistence.inventory.facility.HashMapFacilityInventoryDao;
+import edu.luc.comp473.facilityMan.business.entities.facility.Building;
+import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
+import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
+import edu.luc.comp473.facilityMan.persistence.facility.FacilityDao;
+import edu.luc.comp473.facilityMan.persistence.facility.HashMapFacilityDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -20,26 +23,23 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import edu.luc.comp473.facilityMan.business.entities.facility.Building;
-import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
-import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 
 /**
- * Tests behaviours regarding @see HashMapFacilityInventoryDao.
+ * Tests behaviours regarding @see HashMapFacilityDao.
  */
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
-public class HashMapFacilityInventoryDaoTest {
+public class HashMapFacilityDaoTest {
 
     private HashMap<Long, Facility> dataStore;
 
-    private FacilityInventoryDao dao;
+    private HashMapFacilityDao dao;
 
     @BeforeAll
     public void init() {
-        dataStore = new HashMap<>();
-        dao = new HashMapFacilityInventoryDao(dataStore);
+        dao = new HashMapFacilityDao();
+        dataStore = dao.getDataStore();
     }
 
     @Test
@@ -63,7 +63,7 @@ public class HashMapFacilityInventoryDaoTest {
         // given
         int sizeAtStart = dataStore.size();
         Facility facility1 = new Building();
-        Facility facility2 = new Unit();
+        Facility facility2 = new Unit((Building) facility1);
         Facility facility3 = new Building();
 
         // when
@@ -122,7 +122,7 @@ public class HashMapFacilityInventoryDaoTest {
         Facility building = new Building();
         dao.saveFacility(building);
 
-        Facility unit = new Unit();
+        Facility unit = new Unit((Building)building);
         unit.setId(building.getId());
 
         // when
@@ -189,11 +189,11 @@ public class HashMapFacilityInventoryDaoTest {
         // given
         int sizeAtStart = dataStore.size();
         assertFalse(dataStore.keySet().contains(1005L));
-        Facility face = new Unit();
+        Facility face = new Unit(new Building());
         face.setId(1005L);
 
         // when
-        dao.removeFacility(face);
+        dao.removeFacility(1005L);
 
         // then
         assertEquals(sizeAtStart, dataStore.size());
@@ -209,7 +209,7 @@ public class HashMapFacilityInventoryDaoTest {
         Facility face = (Facility) dataStore.values().toArray()[0];
 
         // when
-        dao.removeFacility(face);
+        dao.removeFacility(face.getId());
 
         // then
         assertEquals(sizeAtStart - 1, dataStore.size());
@@ -223,17 +223,17 @@ public class HashMapFacilityInventoryDaoTest {
         // given
         Building building = new Building();
         dao.saveFacility(building);
-        Unit unit1 = new Unit();
+        Unit unit1 = new Unit(building);
         building.addUnit(unit1);
         dao.saveFacility(unit1);
-        Unit unit2 = new Unit();
+        Unit unit2 = new Unit(building);
         building.addUnit(unit2);
         dao.saveFacility(unit2);
 
         int sizeAtStart = dataStore.size();
 
         // when
-        dao.removeFacility(building);
+        dao.removeFacility(building.getId());
 
         // then
         assertEquals(sizeAtStart - 3, dataStore.size());
@@ -243,7 +243,6 @@ public class HashMapFacilityInventoryDaoTest {
         assertTrue(building.getUnits().isEmpty());
         assertNull(unit1.getBuilding());
         assertNull(unit2.getBuilding());
-
     }
 
     @Test
@@ -252,24 +251,22 @@ public class HashMapFacilityInventoryDaoTest {
         // given
         Building building = new Building();
         dao.saveFacility(building);
-        Unit unit1 = new Unit();
+        Unit unit1 = new Unit(building);
         building.addUnit(unit1);
         dao.saveFacility(unit1);
-        Unit unit2 = new Unit();
+        Unit unit2 = new Unit(building);
         building.addUnit(unit2);
         dao.saveFacility(unit2);
 
         int sizeAtStart = dataStore.size();
 
         // when
-        dao.removeFacility(unit1);
+        dao.removeFacility(unit1.getId());
 
         // then
         assertEquals(sizeAtStart - 1, dataStore.size());
         assertTrue(dataStore.containsValue(building));
         assertFalse(dataStore.containsValue(unit1));
         assertFalse(building.getUnits().contains(unit1));
-        assertNull(unit1.getBuilding());
     }
-
 }

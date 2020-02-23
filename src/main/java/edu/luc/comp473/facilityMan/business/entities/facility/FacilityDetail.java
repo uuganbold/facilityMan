@@ -6,12 +6,12 @@ package edu.luc.comp473.facilityMan.business.entities.facility;
 public class FacilityDetail {
 
     /**
-     * Facilities have some names.
+     * Facilities have a name.
      */
     private String name;
 
     /**
-     * Facilities have some description.
+     * Facilities have a description.
      */
     private String description;
 

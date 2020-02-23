@@ -1,20 +1,18 @@
-package edu.luc.comp473.facilityMan.persistence.inventory.facility;
-
-import java.util.List;
+package edu.luc.comp473.facilityMan.persistence.facility;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
+
+import java.util.List;
 
 /**
  * Data access object for Facility.
  */
-public interface FacilityInventoryDao {
-
+public interface FacilityDao {
     void saveFacility(Facility facility);
 
     Facility findFacilityById(long id);
 
     List<Facility> findAllFacilities();
 
-    void removeFacility(Facility facility);
-
+    boolean removeFacility(long id);
 }
