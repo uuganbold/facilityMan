@@ -4,6 +4,10 @@ Design and development by Tyler Arndt, Sam Siner and Uuganbold Tsegmed
 
 ## Project 1
 
+#### How to Run
+
+The program can be run with the "mvn spring-boot:run" command. Alternatively, the FacilityManApplication file contains a main method that can be run directly from the code editor.
+
 #### Project Description
 
 In this project, we will start providing an object domain model for Facility Management System by addressing the design  
