@@ -1,16 +1,27 @@
 package edu.luc.comp473.facilityMan.business.entities.facility;
 
 import java.util.ArrayList;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * Building is a construction constructed by Units.
  */
+@Entity
 public class Building extends Facility {
 
     /**
      * A building is constructed by units.
      */
-    private ArrayList<Unit> units = new ArrayList<>();
+    @Getter
+    @OneToMany(mappedBy = "building", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<Unit> units;
 
     /**
      * Building's capacity is defined by it's units' capacities.
@@ -24,12 +35,9 @@ public class Building extends Facility {
         return totalCapacity;
     }
 
-    public ArrayList<Unit> getUnits() {
-        return this.units;
-    }
-
     public void addUnit(Unit unit) {
         units.add(unit);
+        unit.setBuilding(this);
     }
 
     /**
@@ -42,6 +50,7 @@ public class Building extends Facility {
     public boolean removeUnit(Unit unit) {
         if (units.contains(unit)) {
             units.remove(unit);
+            unit.setBuilding(null);
             return true;
         }
         return false;

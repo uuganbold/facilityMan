@@ -1,46 +1,31 @@
 package edu.luc.comp473.facilityMan.business.entities.facility;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+
+import edu.luc.comp473.facilityMan.business.entities.base.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
 /**
  * Detailed information about Facility.
  */
-public class FacilityDetail {
+@Entity
+@Getter
+@Setter
+@Accessors(chain = true)
+public class FacilityDetail extends BaseEntity {
 
-    /**
-     * Facilities have a name.
-     */
-    private String name;
+    @OneToOne(mappedBy = "detail")
+    private Facility facility;
 
     /**
      * Facilities have a description.
      */
     private String description;
 
-    public String getName() {
-        return name;
-    }
+    private String address;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public FacilityDetail(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public FacilityDetail() {
-    }
-
-    @Override
-    public String toString() {
-        return "FacilityDetail [name=" + name + ", description=" + description + "]";
-    }
 }
