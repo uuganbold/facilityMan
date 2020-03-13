@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<description>Wiring the dependencies for the Facility Management Application.</description>
+
+	<context:component-scan base-package="edu.luc.comp473.facilityMan" />
+
+    <!-- Facility Information Service -->
+    <bean id="facilityDaoMap" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.Long" value-type="edu.luc.comp473.facilityMan.business.entities.facility.Facility"/>
+        </constructor-arg>
+    </bean>
+    <bean id="facilityDao" class="edu.luc.comp473.facilityMan.persistence.facility.HashMapFacilityDao">
+        <constructor-arg ref="maintenanceDaoMap"/>
+    </bean>
+    <bean id="facilityInformationService" class="edu.luc.comp473.facilityMan.business.service.information.FacilityInformationServiceImpl" scope="prototype">
+        <constructor-arg ref="facilityDao"/>
+    </bean>
+
+    <!-- Facility Inspection Service -->
+    <bean id="facilityInspectionDaoMap" class="edu.luc.comp473.facilityMan.persistence.inspection.HashMapFacilityInspectionDao">
+        <constructor-arg>
+            <map key-type="java.lang.Long" value-type="edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspection"/>
+        </constructor-arg>
+    </bean>
+    <bean id="facilityInspectionDao" class="edu.luc.comp473.facilityMan.persistence.inspection.HashMapFacilityInspectionDao">
+        <constructor-arg>
+            <map key-type="java.lang.Long" value-type="edu.luc.comp473.facilityMan.persistence.inspection.HashMapFacilityInspectionDao"/>
+        </constructor-arg>
+    </bean>
+    <bean id="facilityInspectionService" class="edu.luc.comp473.facilityMan.business.service.inspection.FacilityInspectionServiceImpl">
+        <constructor-arg ref="facilityInspectionDao"/>
+    </bean>
+
+    <!-- Facility Inventory Service -->
+    <bean id="facilityInventoryService" class="edu.luc.comp473.facilityMan.business.service.inventory.FacilityInventoryServiceImpl">
+        <constructor-arg ref="facilityDao"/>
+    </bean>
+
+    <!-- Maintenance Service -->
+    <bean id="maintenanceDaoMap" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.Long" value-type="edu.luc.comp473.facilityMan.business.entities.maintenance.Maintenance"/>
+        </constructor-arg>
+    </bean>
+    <bean id="maintenanceDao" class="edu.luc.comp473.facilityMan.persistence.maintenance.HashMapMaintenanceDao">
+        <constructor-arg ref="maintenanceDaoMap"/>
+    </bean>
+    <bean id="maintenanceService" class="edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceServiceImpl">
+        <constructor-arg ref="maintenanceDao"/>
+    </bean>
+
+    <!-- Maintenance Request Service -->
+    <bean id="maintenanceRequestService" class="edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestServiceImpl">
+        <constructor-arg ref="maintenanceDao"/>
+    </bean>
+
+    <!-- Facility Use Service -->
+    <bean id="facilityUse" class="edu.luc.comp473.facilityMan.business.entities.use.FacilityUse" scope="prototype"/>
+    <bean id="useDaoMap" class="edu.luc.comp473.facilityMan.persistence.use.ArrayListUseDao">
+        <constructor-arg>
+            <list>
+                <ref bean="facilityUse"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+</beans>

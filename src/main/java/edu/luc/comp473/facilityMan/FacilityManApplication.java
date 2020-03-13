@@ -2,9 +2,13 @@ package edu.luc.comp473.facilityMan;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import edu.luc.comp473.facilityMan.persistence.use.UseDao;
+import org.apache.catalina.core.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -41,15 +45,17 @@ import edu.luc.comp473.facilityMan.persistence.inspection.HashMapFacilityInspect
 import edu.luc.comp473.facilityMan.persistence.maintenance.HashMapMaintenanceDao;
 import edu.luc.comp473.facilityMan.persistence.maintenance.MaintenanceDao;
 import edu.luc.comp473.facilityMan.persistence.use.ArrayListUseDao;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @SpringBootApplication
 public class FacilityManApplication implements CommandLineRunner {
 
 	private final Logger logger = LoggerFactory.getLogger(FacilityManApplication.class);
 
-	public static void main(String[] args) {
-		SpringApplication.run(FacilityManApplication.class, args);
-	}
+//	public static void main(String[] args) {
+//		SpringApplication.run(FacilityManApplication.class, args);
+//	}
+//	ApplicationContext context = new ClassPathXmlApplicationContext()
 
 	private FacilityInformationService informationService;
 	private FacilityInspectionService inspectionService;
@@ -59,14 +65,15 @@ public class FacilityManApplication implements CommandLineRunner {
 	private FacilityUseService useService;
 
 	private void init() {
-		FacilityDao facilityDao = new HashMapFacilityDao();
+		FacilityDao facilityDao = new HashMapFacilityDao(new HashMap<>());
 		facilityService = new FacilityInventoryServiceImpl(facilityDao);
 		informationService = new FacilityInformationServiceImpl(facilityDao);
-		inspectionService = new FacilityInspectionServiceImpl(new HashMapFacilityInspectionDao());
-		MaintenanceDao maintenanceDao = new HashMapMaintenanceDao();
+		inspectionService = new FacilityInspectionServiceImpl(new HashMapFacilityInspectionDao(new HashMap<>()));
+		MaintenanceDao maintenanceDao = new HashMapMaintenanceDao(new HashMap<>());
 		maintenanceService = new MaintenanceServiceImpl(maintenanceDao);
 		requestService = new MaintenanceRequestServiceImpl(maintenanceDao);
-		useService = new FacilityUseServiceImpl(new ArrayListUseDao());
+		UseDao useDao = new ArrayListUseDao(new ArrayList<>());
+		useService = new FacilityUseServiceImpl(useDao);
 	}
 
 	@Override

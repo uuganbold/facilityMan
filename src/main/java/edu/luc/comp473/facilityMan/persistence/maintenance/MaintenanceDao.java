@@ -4,6 +4,7 @@ import edu.luc.comp473.facilityMan.business.entities.maintenance.Maintenance;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.MaintenanceRequest;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MaintenanceDao {
     void addMaintenance(Maintenance maintenance);

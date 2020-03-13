@@ -12,9 +12,10 @@ public class FacilityInformationServiceImpl implements FacilityInformationServic
 
     private FacilityDao dao;
 
-    public FacilityInformationServiceImpl(FacilityDao dao) {
-        this.dao = dao;
-    }
+//    public FacilityInformationServiceImpl(FacilityDao dao) {
+//        this.dao = dao;
+//    }
+    public FacilityInformationServiceImpl(FacilityDao dao) { this.dao = dao; }
 
     @Override
     public void addFacilityDetail(Long id, FacilityDetail detail) {

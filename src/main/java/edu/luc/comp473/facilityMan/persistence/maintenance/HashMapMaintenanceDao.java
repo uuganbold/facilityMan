@@ -15,11 +15,7 @@ import java.util.Map;
 public class HashMapMaintenanceDao implements MaintenanceDao {
     private final Map<Long, Maintenance> dataStore;
 
-    public HashMapMaintenanceDao() {
-        this.dataStore = new HashMap<>();
-    }
-
-    public HashMapMaintenanceDao(HashMap<Long, Maintenance> dataStore) {
+    public HashMapMaintenanceDao(Map<Long, Maintenance> dataStore) {
         this.dataStore = dataStore;
     }
 

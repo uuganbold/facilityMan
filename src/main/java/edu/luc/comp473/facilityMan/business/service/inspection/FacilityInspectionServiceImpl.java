@@ -1,5 +1,6 @@
 package edu.luc.comp473.facilityMan.business.service.inspection;
 
+import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspection;
 import edu.luc.comp473.facilityMan.persistence.inspection.FacilityInspectionDao;
 
@@ -12,9 +13,7 @@ public class FacilityInspectionServiceImpl implements FacilityInspectionService 
 
     private final FacilityInspectionDao facilityInspectionDao;
 
-    public FacilityInspectionServiceImpl(FacilityInspectionDao facilityInspectionDao){
-        this.facilityInspectionDao = facilityInspectionDao;
-    }
+    public FacilityInspectionServiceImpl(FacilityInspectionDao facilityInspectionDao){ this.facilityInspectionDao = facilityInspectionDao; }
 
     @Override
     public void addInspection(FacilityInspection inspection) { facilityInspectionDao.addFacilityInspection(inspection); }

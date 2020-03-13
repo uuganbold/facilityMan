@@ -8,18 +8,17 @@ import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * HashMap implementation of @see . Singleton pattern to avoid multiple data stores.
  */
 public class HashMapFacilityDao implements FacilityDao {
-    private final HashMap<Long, Facility> dataStore;
+    private final Map<Long, Facility> dataStore;
     private final AtomicLong autoIncrementer = new AtomicLong(0);
 
-    public HashMapFacilityDao(){
-        dataStore = new HashMap<>();
-    }
+    public HashMapFacilityDao(Map<Long, Facility> dataStore){ this.dataStore = dataStore; }
 
     @Override
     public List<Facility> findAllFacilities() {
@@ -73,9 +72,5 @@ public class HashMapFacilityDao implements FacilityDao {
         synchronized (dataStore) {
             dataStore.put(facility.getId(), facility);
         }
-    }
-
-    public HashMap<Long, Facility> getDataStore(){
-        return dataStore;
     }
 }
