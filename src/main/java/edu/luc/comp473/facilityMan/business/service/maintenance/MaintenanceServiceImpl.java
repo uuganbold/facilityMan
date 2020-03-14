@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class MaintenanceServiceImpl implements MaintenanceService {
 
-    private MaintenanceDao maintenanceDao;
+    private final MaintenanceDao maintenanceDao;
 
     public MaintenanceServiceImpl(MaintenanceDao maintenanceDao){
         this.maintenanceDao = maintenanceDao;

@@ -9,6 +9,28 @@
 
 	<context:component-scan base-package="edu.luc.comp473.facilityMan" />
 
+    <!-- Building -->
+    <bean id="building" class="edu.luc.comp473.facilityMan.business.entities.facility.Building" scope="prototype">
+        <property name="units">
+            <list>
+                <ref bean="unit"/>
+            </list>
+        </property>
+        <property name="detail" ref="facilityDetail"/>
+    </bean>
+
+    <!-- Unit -->
+    <bean id="unit" class="edu.luc.comp473.facilityMan.business.entities.facility.Unit" scope="prototype">
+        <property name="detail" ref="facilityDetail"/>
+    </bean>
+
+    <!-- Facility Detail -->
+    <bean id="facilityDetail" class="edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail" scope="prototype"/>
+
+
+    <!-- Auto Incrementer -->
+    <bean id="autoIncrementer" class="java.util.concurrent.atomic.AtomicLong"/>
+
     <!-- Facility Information Service -->
     <bean id="facilityDaoMap" class="java.util.HashMap">
         <constructor-arg>
@@ -18,7 +40,7 @@
     <bean id="facilityDao" class="edu.luc.comp473.facilityMan.persistence.facility.HashMapFacilityDao">
         <constructor-arg ref="maintenanceDaoMap"/>
     </bean>
-    <bean id="facilityInformationService" class="edu.luc.comp473.facilityMan.business.service.information.FacilityInformationServiceImpl" scope="prototype">
+    <bean id="facilityInformationService" class="edu.luc.comp473.facilityMan.business.service.information.FacilityInformationServiceImpl">
         <constructor-arg ref="facilityDao"/>
     </bean>
 
@@ -58,6 +80,7 @@
     <!-- Maintenance Request Service -->
     <bean id="maintenanceRequestService" class="edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestServiceImpl">
         <constructor-arg ref="maintenanceDao"/>
+        <property name="autoIncrementer" ref="autoIncrementer"/>
     </bean>
 
     <!-- Facility Use Service -->

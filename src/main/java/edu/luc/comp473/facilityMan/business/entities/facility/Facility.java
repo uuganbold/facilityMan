@@ -6,29 +6,14 @@ package edu.luc.comp473.facilityMan.business.entities.facility;
  */
 public abstract class Facility {
 
-    /**
-     * Facility has unique identifier.
-     */
     private long id;
 
-    /**
-     * Each facility should have details about that facility.
-     */
     private FacilityDetail detail;
 
-    public long getId() {
-        return id;
-    }
+    public long getId() { return id; }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public void setId(long id) { this.id = id; }
 
-    /**
-     * Each facility should have capacity.
-     *
-     * @return capacity of the facility
-     */
     public abstract int getCapacity();
 
     public FacilityDetail getDetail() {
