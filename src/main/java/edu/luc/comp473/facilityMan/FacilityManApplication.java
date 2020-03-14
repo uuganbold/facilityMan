@@ -129,12 +129,12 @@ public class FacilityManApplication implements CommandLineRunner {
 	private void facilityInventory() {
 		Building building = new Building();
 		facilityService.addNewFacility(building);
-		Unit unit = new Unit(building);
+		Unit unit = new Unit();
 		unit.setCapacity(10);
 		building.addUnit(unit);
 		facilityService.addNewFacility(unit);
 
-		unit = new Unit(building);
+		unit = new Unit();
 		unit.setCapacity(20);
 		building.addUnit(unit);
 		facilityService.addNewFacility(unit);

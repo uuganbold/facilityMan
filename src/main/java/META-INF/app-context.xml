@@ -27,6 +27,14 @@
     <!-- Facility Detail -->
     <bean id="facilityDetail" class="edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail" scope="prototype"/>
 
+    <!-- Schedule -->
+    <bean id="schedule" class="edu.luc.comp473.facilityMan.business.entities.util.Schedule" scope="prototype"/>
+
+    <!-- Date -->
+    <bean id="date" class="java.util.Date" scope="prototype"/>
+
+    <!-- Facility Use -->
+    <bean id="use" class="edu.luc.comp473.facilityMan.business.entities.use.FacilityUse" scope="prototype"/>
 
     <!-- Auto Incrementer -->
     <bean id="autoIncrementer" class="java.util.concurrent.atomic.AtomicLong"/>
