@@ -28,5 +28,4 @@ public abstract class Facility {
     public String toString() {
         return getClass().getSimpleName() + " [id=" + id + ", capacity=" + getCapacity() + ", detail=" + detail + "]";
     }
-
 }

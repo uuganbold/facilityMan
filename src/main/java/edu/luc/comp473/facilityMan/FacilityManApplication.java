@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.luc.comp473.facilityMan.persistence.use.UseDao;
-import org.apache.catalina.core.ApplicationContext;
+//import org.apache.catalina.core.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -45,17 +45,18 @@ import edu.luc.comp473.facilityMan.persistence.inspection.HashMapFacilityInspect
 import edu.luc.comp473.facilityMan.persistence.maintenance.HashMapMaintenanceDao;
 import edu.luc.comp473.facilityMan.persistence.maintenance.MaintenanceDao;
 import edu.luc.comp473.facilityMan.persistence.use.ArrayListUseDao;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @SpringBootApplication
 public class FacilityManApplication implements CommandLineRunner {
 
 	private final Logger logger = LoggerFactory.getLogger(FacilityManApplication.class);
-
+//
 //	public static void main(String[] args) {
 //		SpringApplication.run(FacilityManApplication.class, args);
 //	}
-//	ApplicationContext context = new ClassPathXmlApplicationContext()
+//	ApplicationContext context = new ClassPathXmlApplicationContext();
 
 	private FacilityInformationService informationService;
 	private FacilityInspectionService inspectionService;

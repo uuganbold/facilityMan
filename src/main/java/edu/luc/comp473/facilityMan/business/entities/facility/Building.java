@@ -1,5 +1,6 @@
 package edu.luc.comp473.facilityMan.business.entities.facility;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ public class Building extends Facility {
     /**
      * A building is constructed by units.
      */
-    private List<Unit> units;
+    private ArrayList<Unit> units = new ArrayList<>();
 
     /**
      * Building's capacity is defined by it's units' capacities.
@@ -24,11 +25,11 @@ public class Building extends Facility {
         return totalCapacity;
     }
 
-    public List<Unit> getUnits() {
+    public ArrayList<Unit> getUnits() {
         return this.units;
     }
 
-    public void setUnits(List<Unit> units){ this.units = units; }
+    public void setUnits(ArrayList<Unit> units){ this.units = units; }
 
     public void addUnit(Unit unit) { units.add(unit); }
 
@@ -45,5 +46,15 @@ public class Building extends Facility {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        String s = getClass().getSimpleName() + " [id=" + getId() + ", capacity=" + getCapacity() + ", detail=" + getDetail() + "]"
+                + ", units: ";
+        for (Unit u : units){
+            s += u.toString() + ", ";
+        }
+        return s;
     }
 }

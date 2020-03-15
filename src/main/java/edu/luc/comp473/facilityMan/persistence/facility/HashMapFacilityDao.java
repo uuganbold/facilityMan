@@ -15,10 +15,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * HashMap implementation of @see . Singleton pattern to avoid multiple data stores.
  */
 public class HashMapFacilityDao implements FacilityDao {
-    private final Map<Long, Facility> dataStore;
+    private final HashMap<Long, Facility> dataStore;
     private final AtomicLong autoIncrementer = new AtomicLong(0);
 
-    public HashMapFacilityDao(Map<Long, Facility> dataStore){ this.dataStore = dataStore; }
+    public HashMapFacilityDao(HashMap<Long, Facility> dataStore){ this.dataStore = dataStore; }
 
     @Override
     public List<Facility> findAllFacilities() {
@@ -46,11 +46,19 @@ public class HashMapFacilityDao implements FacilityDao {
                     dataStore.remove(u.getId());
                 }
                 building.removeUnit(u);
-                u.setBuilding(null);
+//                u.setBuilding(null);
             }
         } else if (f instanceof Unit) {
             Unit unit = (Unit) f;
-            unit.getBuilding().removeUnit(unit);
+
+            for (Facility fac: dataStore.values()){
+                if (fac instanceof Building){
+                    if (((Building) fac).getUnits().contains(unit)){
+                        ((Building)fac).removeUnit(unit);
+                    }
+                }
+            }
+//            unit.getBuilding().removeUnit(unit);
         }
         synchronized (dataStore) {
             dataStore.remove(id);
@@ -62,15 +70,17 @@ public class HashMapFacilityDao implements FacilityDao {
     public void saveFacility(Facility facility) {
         if (facility.getId() == 0) {
             facility.setId(autoIncrementer.incrementAndGet());
-        } else {
-            if (!dataStore.containsKey(facility.getId())) {
-                throw new DataAccessException("Facility has not been found with the id:" + facility.getId());
-            } else if (!dataStore.get(facility.getId()).getClass().equals(facility.getClass())) {
-                throw new DataAccessException("Type of the facility does not match");
-            }
+//        } else {
+//            if (!dataStore.containsKey(facility.getId())) {
+//                throw new DataAccessException("Facility has not been found with the id:" + facility.getId());
+//            } else if (!dataStore.get(facility.getId()).getClass().equals(facility.getClass())) {
+//                throw new DataAccessException("Type of the facility does not match");
+//            }
         }
         synchronized (dataStore) {
             dataStore.put(facility.getId(), facility);
         }
     }
+
+    public HashMap<Long, Facility> getDataStore(){ return dataStore; }
 }

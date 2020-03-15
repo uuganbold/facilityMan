@@ -11,11 +11,11 @@
 
     <!-- Building -->
     <bean id="building" class="edu.luc.comp473.facilityMan.business.entities.facility.Building" scope="prototype">
-        <property name="units">
-            <list>
-                <ref bean="unit"/>
-            </list>
-        </property>
+<!--        <property name="units">-->
+<!--            <list>-->
+<!--                <ref bean="unit"/>-->
+<!--            </list>-->
+<!--        </property>-->
         <property name="detail" ref="facilityDetail"/>
     </bean>
 
@@ -66,6 +66,7 @@
     <bean id="facilityInspectionService" class="edu.luc.comp473.facilityMan.business.service.inspection.FacilityInspectionServiceImpl">
         <constructor-arg ref="facilityInspectionDao"/>
     </bean>
+    <bean id="facilityInspection" class="edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspection" scope="prototype"/>
 
     <!-- Facility Inventory Service -->
     <bean id="facilityInventoryService" class="edu.luc.comp473.facilityMan.business.service.inventory.FacilityInventoryServiceImpl">
@@ -92,13 +93,15 @@
     </bean>
 
     <!-- Facility Use Service -->
-    <bean id="facilityUse" class="edu.luc.comp473.facilityMan.business.entities.use.FacilityUse" scope="prototype"/>
-    <bean id="useDaoMap" class="edu.luc.comp473.facilityMan.persistence.use.ArrayListUseDao">
+    <bean id="facilityUseService" class="edu.luc.comp473.facilityMan.business.service.use.FacilityUseServiceImpl">
+        <constructor-arg ref="useDao"/>
+    </bean>
+    <bean id="useDao" class="edu.luc.comp473.facilityMan.persistence.use.ArrayListUseDao">
         <constructor-arg>
             <list>
                 <ref bean="facilityUse"/>
             </list>
         </constructor-arg>
     </bean>
-
+    <bean id="facilityUse" class="edu.luc.comp473.facilityMan.business.entities.use.FacilityUse" scope="prototype"/>
 </beans>

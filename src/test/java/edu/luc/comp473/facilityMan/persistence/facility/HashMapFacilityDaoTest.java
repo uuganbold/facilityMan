@@ -21,14 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(OrderAnnotation.class)
 public class HashMapFacilityDaoTest {
 
-    private HashMap<Long, Facility> dataStore;
+    private HashMap<Long, Facility> dataStore = new HashMap<>();
 
     private HashMapFacilityDao dao;
 
     @BeforeAll
     public void init() {
-        dao = new HashMapFacilityDao();
-        dataStore = dao.getDataStore();
+        dao = new HashMapFacilityDao(dataStore);
+//        dataStore = dao.getDataStore();
     }
 
     @Test
@@ -52,7 +52,7 @@ public class HashMapFacilityDaoTest {
         // given
         int sizeAtStart = dataStore.size();
         Facility facility1 = new Building();
-        Facility facility2 = new Unit((Building) facility1);
+        Facility facility2 = new Unit();
         Facility facility3 = new Building();
 
         // when
@@ -111,7 +111,7 @@ public class HashMapFacilityDaoTest {
         Facility building = new Building();
         dao.saveFacility(building);
 
-        Facility unit = new Unit((Building)building);
+        Facility unit = new Unit();
         unit.setId(building.getId());
 
         // when
@@ -137,7 +137,7 @@ public class HashMapFacilityDaoTest {
     @Order(1)
     public void givenEmptyStore_whenFindAllFacilities_thenReturnEmptyList() {
         // given
-        assertTrue(dataStore.isEmpty());
+        assertTrue(dao.getDataStore().isEmpty());
         // when
         List<Facility> facilities = dao.findAllFacilities();
 
@@ -178,7 +178,7 @@ public class HashMapFacilityDaoTest {
         // given
         int sizeAtStart = dataStore.size();
         assertFalse(dataStore.keySet().contains(1005L));
-        Facility face = new Unit(new Building());
+        Facility face = new Unit();
         face.setId(1005L);
 
         // when
@@ -212,10 +212,10 @@ public class HashMapFacilityDaoTest {
         // given
         Building building = new Building();
         dao.saveFacility(building);
-        Unit unit1 = new Unit(building);
+        Unit unit1 = new Unit();
         building.addUnit(unit1);
         dao.saveFacility(unit1);
-        Unit unit2 = new Unit(building);
+        Unit unit2 = new Unit();
         building.addUnit(unit2);
         dao.saveFacility(unit2);
 
@@ -230,8 +230,8 @@ public class HashMapFacilityDaoTest {
         assertFalse(dataStore.containsValue(unit1));
         assertFalse(dataStore.containsValue(unit2));
         assertTrue(building.getUnits().isEmpty());
-        assertNull(unit1.getBuilding());
-        assertNull(unit2.getBuilding());
+//        assertNull(unit1.getBuilding());
+//        assertNull(unit2.getBuilding());
     }
 
     @Test
@@ -240,10 +240,10 @@ public class HashMapFacilityDaoTest {
         // given
         Building building = new Building();
         dao.saveFacility(building);
-        Unit unit1 = new Unit(building);
+        Unit unit1 = new Unit();
         building.addUnit(unit1);
         dao.saveFacility(unit1);
-        Unit unit2 = new Unit(building);
+        Unit unit2 = new Unit();
         building.addUnit(unit2);
         dao.saveFacility(unit2);
 
