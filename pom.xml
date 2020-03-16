@@ -16,6 +16,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<docker.image.prefix>uuganbold</docker.image.prefix>
+		<docker.image.name>facility-man</docker.image.name>
 	</properties>
 
 	<dependencies>
@@ -71,7 +73,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
@@ -81,11 +83,11 @@
                         <dependency>
                             <groupId>com.github.ngeor</groupId>
                             <artifactId>checkstyle-rules</artifactId>
-                            <version>1.1.0</version>
+                            <version>3.1.0</version>
                         </dependency>
                     </dependencies>
                     <configuration>
-                        <configLocation>com/github/ngeor/checkstyle.xml</configLocation>
+                        <configLocation>google_checks.xml</configLocation>
                         <includeTestSourceDirectory>false</includeTestSourceDirectory>
                     </configuration>
                 </plugin>
@@ -127,6 +129,85 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.33.0</version>
+				<configuration>
+					<dockerHost>unix:///var/run/docker.sock</dockerHost>
+					<verbose>true</verbose>
+					<images>
+						<image>
+							<name>${docker.image.prefix}/${docker.image.name}</name>
+							<build>
+								<dockerFileDir>${project.basedir}/target/dockerfile</dockerFileDir>
+								<assembly>
+									<descriptorRef>artifact</descriptorRef>
+									</assembly>
+								<tags>
+									<tag>latest</tag>
+									<tag>${project.version}</tag>
+									</tags>
+							</build>
+							<run>
+								<ports>
+									<port>8080:8080</port>
+								</ports>
+								<links>
+									<link>mysqldb:mysql</link>
+								</links>
+								<dependsOn>
+									<container>mysql</container>
+								</dependsOn>
+							</run>
+						</image>
+						<image>
+							<name>mysql</name>
+							<alias>mysqldb</alias>
+							<run>
+								<ports>
+									<port>3306</port>
+								</ports>
+								<env>
+									<MYSQL_DATABASE>facility</MYSQL_DATABASE>
+									<MYSQL_ALLOW_EMPTY_PASSWORD>true</MYSQL_ALLOW_EMPTY_PASSWORD>
+								</env>
+								<wait>
+									<time>10000</time>
+								</wait>
+							</run>
+
+						</image>
+					</images>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.gmavenplus</groupId>
+				<artifactId>gmavenplus-plugin</artifactId>
+				<version>1.8.1</version>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<scripts>
+						<script>file:///${project.basedir}/src/main/scripts/BuildDockerfile.groovy</script>
+						</scripts>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-all</artifactId>
+						<version>3.0.2</version>
+						<type>pom</type>
+						<scope>runtime</scope>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
