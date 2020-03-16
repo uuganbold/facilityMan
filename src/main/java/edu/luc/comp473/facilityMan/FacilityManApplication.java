@@ -52,11 +52,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class FacilityManApplication implements CommandLineRunner {
 
 	private final Logger logger = LoggerFactory.getLogger(FacilityManApplication.class);
-//
-//	public static void main(String[] args) {
-//		SpringApplication.run(FacilityManApplication.class, args);
-//	}
-//	ApplicationContext context = new ClassPathXmlApplicationContext();
+	//
+	// public static void main(String[] args) {
+	// SpringApplication.run(FacilityManApplication.class, args);
+	// }
+	// ApplicationContext context = new ClassPathXmlApplicationContext();
 
 	private FacilityInformationService informationService;
 	private FacilityInspectionService inspectionService;
