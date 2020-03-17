@@ -10,11 +10,12 @@ import edu.luc.comp473.facilityMan.persistence.facility.FacilityDao;
  */
 public class FacilityInformationServiceImpl implements FacilityInformationService {
 
-    private FacilityDao dao;
+    private final FacilityDao dao;
 
-    public FacilityInformationServiceImpl(FacilityDao dao) {
-        this.dao = dao;
-    }
+//    public FacilityInformationServiceImpl(FacilityDao dao) {
+//        this.dao = dao;
+//    }
+    public FacilityInformationServiceImpl(FacilityDao dao) { this.dao = dao; }
 
     @Override
     public void addFacilityDetail(Long id, FacilityDetail detail) {

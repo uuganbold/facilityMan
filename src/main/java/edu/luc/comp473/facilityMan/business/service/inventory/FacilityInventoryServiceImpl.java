@@ -16,7 +16,7 @@ import java.util.List;
 public class FacilityInventoryServiceImpl implements FacilityInventoryService {
     private final Logger logger = LoggerFactory.getLogger(FacilityInventoryServiceImpl.class);
 
-    private FacilityDao dao;
+    private final FacilityDao dao;
 
     public FacilityInventoryServiceImpl(FacilityDao dao) {
         this.dao = dao;

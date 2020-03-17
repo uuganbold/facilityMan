@@ -11,12 +11,18 @@ import java.util.concurrent.atomic.AtomicLong;
  * Simple @MaintenanceRequestService depending on DAO.
  */
 public class MaintenanceRequestServiceImpl implements MaintenanceRequestService {
-    private MaintenanceDao maintenanceDao;
-    private final AtomicLong autoIncrementer = new AtomicLong(0);
+    private final MaintenanceDao maintenanceDao;
+    private AtomicLong autoIncrementer = new AtomicLong();
 
     public MaintenanceRequestServiceImpl(MaintenanceDao maintenanceDao){
         this.maintenanceDao = maintenanceDao;
     }
+
+    @Override
+    public AtomicLong getAutoIncrementer(){ return this.autoIncrementer; }
+
+    @Override
+    public void setAutoIncrementer(AtomicLong autoIncrementer){ this.autoIncrementer = autoIncrementer; }
 
     @Override
     public MaintenanceRequest makeMaintenanceRequest(Problem problem, long maintenanceId) {

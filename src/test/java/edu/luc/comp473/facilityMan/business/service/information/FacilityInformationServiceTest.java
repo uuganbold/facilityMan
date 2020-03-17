@@ -55,10 +55,10 @@ public class FacilityInformationServiceTest {
 
         Building building = new Building();
         building.setId(1L);
-        Unit unit1 = new Unit(building);
+        Unit unit1 = new Unit();
         unit1.setId(2L);
         unit1.setCapacity(10);
-        Unit unit2 = new Unit(building);
+        Unit unit2 = new Unit();
         unit2.setId(3L);
         unit2.setCapacity(20);
         building.addUnit(unit1);

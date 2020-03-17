@@ -12,7 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,7 +25,8 @@ class FacilityInspectionServiceTest {
 
     @BeforeEach
     void setUp() {
-        dao = new HashMapFacilityInspectionDao();
+        Map<Long, FacilityInspection> dataStore = new HashMap<>();
+        dao = new HashMapFacilityInspectionDao(dataStore);
         service = new FacilityInspectionServiceImpl(dao);
     }
 

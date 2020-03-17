@@ -1,6 +1,7 @@
 package edu.luc.comp473.facilityMan.business.entities.facility;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Building is a construction constructed by Units.
@@ -28,9 +29,9 @@ public class Building extends Facility {
         return this.units;
     }
 
-    public void addUnit(Unit unit) {
-        units.add(unit);
-    }
+    public void setUnits(ArrayList<Unit> units){ this.units = units; }
+
+    public void addUnit(Unit unit) { units.add(unit); }
 
     /**
      * Remove unit from the building. If it is removed successfully it returns true,
@@ -45,5 +46,15 @@ public class Building extends Facility {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        String s = getClass().getSimpleName() + " [id=" + getId() + ", capacity=" + getCapacity() + ", detail=" + getDetail() + "]"
+                + ", units: ";
+        for (Unit u : units){
+            s += u.toString() + ", ";
+        }
+        return s;
     }
 }

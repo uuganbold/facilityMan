@@ -3,6 +3,7 @@ package edu.luc.comp473.facilityMan.persistence.use;
 import edu.luc.comp473.facilityMan.business.entities.use.FacilityUse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * HashMap implementation of MaintenanceDao
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 public class ArrayListUseDao implements UseDao {
     private final ArrayList<FacilityUse> uses;
 
-    public ArrayListUseDao(){ this.uses = new ArrayList<>();}
+    public ArrayListUseDao(ArrayList<FacilityUse> uses){ this.uses = uses;}
 
     @Override
     public void addUse(FacilityUse use) {
@@ -28,7 +29,7 @@ public class ArrayListUseDao implements UseDao {
     }
 
     @Override
-    public ArrayList<FacilityUse> getAllUses() {
+    public List<FacilityUse> getAllUses() {
         return uses;
     }
 }

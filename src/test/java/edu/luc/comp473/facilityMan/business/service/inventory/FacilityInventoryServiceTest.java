@@ -78,7 +78,7 @@ public class FacilityInventoryServiceTest {
         FacilityInventoryService service = new FacilityInventoryServiceImpl(dao);
         List<Facility> list = new ArrayList<>();
         list.add(new Building());
-        list.add(new Unit(new Building()));
+        list.add(new Unit());
 
         when(dao.findAllFacilities()).thenReturn(list);
 
@@ -98,7 +98,7 @@ public class FacilityInventoryServiceTest {
 
         Building building = new Building();
         building.setId(10);
-        Unit unit = new Unit(building);
+        Unit unit = new Unit();
         unit.setId(11);
 
         when(dao.findFacilityById(building.getId())).thenReturn(building);
