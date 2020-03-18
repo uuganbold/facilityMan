@@ -12,9 +12,6 @@ public class FacilityInformationServiceImpl implements FacilityInformationServic
 
     private final FacilityDao dao;
 
-//    public FacilityInformationServiceImpl(FacilityDao dao) {
-//        this.dao = dao;
-//    }
     public FacilityInformationServiceImpl(FacilityDao dao) { this.dao = dao; }
 
     @Override

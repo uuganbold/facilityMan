@@ -4,7 +4,10 @@ import edu.luc.comp473.facilityMan.business.entities.facility.Building;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
 import edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspection;
+import edu.luc.comp473.facilityMan.business.entities.inspection.InspectionType;
+import edu.luc.comp473.facilityMan.business.entities.use.FacilityUse;
 import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
+import edu.luc.comp473.facilityMan.business.entities.util.Status;
 import edu.luc.comp473.facilityMan.business.service.information.FacilityInformationService;
 import edu.luc.comp473.facilityMan.business.service.inspection.FacilityInspectionService;
 import edu.luc.comp473.facilityMan.business.service.inventory.FacilityInventoryService;
@@ -42,26 +45,44 @@ public class FacilityManClient {
         building1.getDetail().setName("building1 detail name");
         building1.getDetail().setDescription("building1 detail description");
 
-        // date 1
-        Date startDate, endDate;
-        startDate = (Date) context.getBean("date");
-        startDate.setTime(1L);
-        endDate = (Date) context.getBean("date");
-        endDate.setTime(2L);
-
         // schedule 1
         Schedule schedule1 = (Schedule) context.getBean("schedule");
-        schedule1.setStartDate(startDate);
-        schedule1.setEndDate(endDate);
 
+        // dates
+        Date startDate = schedule1.getStartDate();
+        Date endDate = schedule1.getEndDate();
+        startDate.setTime(1L);
+        endDate.setTime(3600000);
+
+        // inspection
+        FacilityInspection facilityInspection1 = (FacilityInspection) context.getBean("facilityInspection");
+        facilityInspection1.setFacility(unit1.getId());
+        facilityInspection1.setId(facilityInspection1.getFacility());
+        facilityInspection1.setInspectionType(InspectionType.FIRE);
+        facilityInspection1.setStatus(Status.SCHEDULED);
+        facilityInspection1.setSchedule(schedule1);
+
+        // facility inventory
         facilityInventoryService.addNewFacility(unit1);
         facilityInventoryService.addNewFacility(building1);
         for (Facility f: facilityInventoryService.listFacilities()){
             System.out.println(f + "\n");
         }
-        String s = facilityInformationService.getFacilityInformation(1L).getName();
-        System.out.println(s);
 
+        // facility information
+        String s = facilityInformationService.getFacilityInformation(1L).getName();
+        System.out.println(s + "\n");
+
+        // facility use
         facilityUseService.assignFacilityToUse(building1.getId(), schedule1);
+        for(FacilityUse use : facilityUseService.listActualUsage()){
+            System.out.println(use + "\n");
+        }
+
+        // facility inspection
+        facilityInspectionService.addInspection(facilityInspection1);
+        for(FacilityInspection f : facilityInspectionService.listInspections()){
+            System.out.println(f + "\n");
+        }
     }
 }

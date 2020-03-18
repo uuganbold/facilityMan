@@ -11,7 +11,7 @@ public class Building extends Facility {
     /**
      * A building is constructed by units.
      */
-    private ArrayList<Unit> units = new ArrayList<>();
+    private List<Unit> units = new ArrayList<>();
 
     /**
      * Building's capacity is defined by it's units' capacities.
@@ -25,11 +25,11 @@ public class Building extends Facility {
         return totalCapacity;
     }
 
-    public ArrayList<Unit> getUnits() {
+    public List<Unit> getUnits() {
         return this.units;
     }
 
-    public void setUnits(ArrayList<Unit> units){ this.units = units; }
+    public void setUnits(List<Unit> units){ this.units = units; }
 
     public void addUnit(Unit unit) { units.add(unit); }
 

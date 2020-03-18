@@ -17,9 +17,6 @@ public class Schedule {
         this.endDate = endDate;
     }
 
-    public Schedule() {
-    }
-
     public long getNumberOfDays() {
         return TimeUnit.DAYS.convert(endDate.getTime() - startDate.getTime(), TimeUnit.MILLISECONDS);
     }

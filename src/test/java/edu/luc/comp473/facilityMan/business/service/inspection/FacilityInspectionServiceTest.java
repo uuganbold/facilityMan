@@ -74,7 +74,12 @@ class FacilityInspectionServiceTest {
         Schedule schedule = new Schedule(new Date(1), new Date(2));
         Facility facility = new Building();
         facility.setId(id);
-        FacilityInspection facilityInspection = new FacilityInspection(inspectionType, schedule, facility);
+
+        FacilityInspection facilityInspection = new FacilityInspection();
+        facilityInspection.setId(id);
+        facilityInspection.setInspectionType(inspectionType);
+        facilityInspection.setSchedule(schedule);
+        facilityInspection.setFacility(facility.getId());
         return facilityInspection;
     }
 }

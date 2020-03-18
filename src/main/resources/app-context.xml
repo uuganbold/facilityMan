@@ -11,12 +11,10 @@
 
     <!-- Building -->
     <bean id="building" class="edu.luc.comp473.facilityMan.business.entities.facility.Building" scope="prototype">
-<!--        <property name="units">-->
-<!--            <list>-->
-<!--                <ref bean="unit"/>-->
-<!--            </list>-->
-<!--        </property>-->
         <property name="detail" ref="facilityDetail"/>
+        <property name="units">
+            <list/>
+        </property>
     </bean>
 
     <!-- Unit -->
@@ -28,7 +26,10 @@
     <bean id="facilityDetail" class="edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail" scope="prototype"/>
 
     <!-- Schedule -->
-    <bean id="schedule" class="edu.luc.comp473.facilityMan.business.entities.util.Schedule" scope="prototype"/>
+    <bean id="schedule" class="edu.luc.comp473.facilityMan.business.entities.util.Schedule" scope="prototype">
+        <constructor-arg name="startDate" ref="date"/>
+        <constructor-arg name="endDate" ref="date"/>
+    </bean>
 
     <!-- Date -->
     <bean id="date" class="java.util.Date" scope="prototype"/>
@@ -36,30 +37,19 @@
     <!-- Facility Use -->
     <bean id="use" class="edu.luc.comp473.facilityMan.business.entities.use.FacilityUse" scope="prototype"/>
 
-    <!-- Auto Incrementer -->
-    <bean id="autoIncrementer" class="java.util.concurrent.atomic.AtomicLong"/>
-
     <!-- Facility Information Service -->
-    <bean id="facilityDaoMap" class="java.util.HashMap">
-        <constructor-arg>
+    <bean id="facilityDao" class="edu.luc.comp473.facilityMan.persistence.facility.HashMapFacilityDao">
+        <constructor-arg name="dataStore">
             <map key-type="java.lang.Long" value-type="edu.luc.comp473.facilityMan.business.entities.facility.Facility"/>
         </constructor-arg>
-    </bean>
-    <bean id="facilityDao" class="edu.luc.comp473.facilityMan.persistence.facility.HashMapFacilityDao">
-        <constructor-arg ref="maintenanceDaoMap"/>
     </bean>
     <bean id="facilityInformationService" class="edu.luc.comp473.facilityMan.business.service.information.FacilityInformationServiceImpl">
         <constructor-arg ref="facilityDao"/>
     </bean>
 
     <!-- Facility Inspection Service -->
-    <bean id="facilityInspectionDaoMap" class="edu.luc.comp473.facilityMan.persistence.inspection.HashMapFacilityInspectionDao">
-        <constructor-arg>
-            <map key-type="java.lang.Long" value-type="edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspection"/>
-        </constructor-arg>
-    </bean>
     <bean id="facilityInspectionDao" class="edu.luc.comp473.facilityMan.persistence.inspection.HashMapFacilityInspectionDao">
-        <constructor-arg>
+        <constructor-arg name="dataStore">
             <map key-type="java.lang.Long" value-type="edu.luc.comp473.facilityMan.persistence.inspection.HashMapFacilityInspectionDao"/>
         </constructor-arg>
     </bean>
@@ -74,13 +64,10 @@
     </bean>
 
     <!-- Maintenance Service -->
-    <bean id="maintenanceDaoMap" class="java.util.HashMap">
-        <constructor-arg>
+    <bean id="maintenanceDao" class="edu.luc.comp473.facilityMan.persistence.maintenance.HashMapMaintenanceDao">
+        <constructor-arg name="dataStore">
             <map key-type="java.lang.Long" value-type="edu.luc.comp473.facilityMan.business.entities.maintenance.Maintenance"/>
         </constructor-arg>
-    </bean>
-    <bean id="maintenanceDao" class="edu.luc.comp473.facilityMan.persistence.maintenance.HashMapMaintenanceDao">
-        <constructor-arg ref="maintenanceDaoMap"/>
     </bean>
     <bean id="maintenanceService" class="edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceServiceImpl">
         <constructor-arg ref="maintenanceDao"/>
@@ -89,7 +76,9 @@
     <!-- Maintenance Request Service -->
     <bean id="maintenanceRequestService" class="edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestServiceImpl">
         <constructor-arg ref="maintenanceDao"/>
-        <property name="autoIncrementer" ref="autoIncrementer"/>
+        <property name="autoIncrementer">
+            <bean class="java.util.concurrent.atomic.AtomicLong"/>
+        </property>
     </bean>
 
     <!-- Facility Use Service -->
@@ -97,11 +86,8 @@
         <constructor-arg ref="useDao"/>
     </bean>
     <bean id="useDao" class="edu.luc.comp473.facilityMan.persistence.use.ArrayListUseDao">
-        <constructor-arg>
-            <list>
-                <ref bean="facilityUse"/>
-            </list>
+        <constructor-arg name="uses">
+            <list/>
         </constructor-arg>
     </bean>
-    <bean id="facilityUse" class="edu.luc.comp473.facilityMan.business.entities.use.FacilityUse" scope="prototype"/>
 </beans>

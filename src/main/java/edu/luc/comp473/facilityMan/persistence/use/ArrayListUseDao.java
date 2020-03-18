@@ -9,9 +9,9 @@ import java.util.List;
  * HashMap implementation of MaintenanceDao
  */
 public class ArrayListUseDao implements UseDao {
-    private final ArrayList<FacilityUse> uses;
+    private final List<FacilityUse> uses;
 
-    public ArrayListUseDao(ArrayList<FacilityUse> uses){ this.uses = uses;}
+    public ArrayListUseDao(List<FacilityUse> uses){ this.uses = uses;}
 
     @Override
     public void addUse(FacilityUse use) {

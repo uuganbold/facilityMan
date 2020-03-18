@@ -12,11 +12,9 @@ import java.util.List;
  * Simple @see FacilityUseService implementation depending on DAO.
  */
 public class FacilityUseServiceImpl implements FacilityUseService {
-    private UseDao useDao;
+    private final UseDao useDao;
 
-    public FacilityUseServiceImpl(UseDao useDao){
-        this.useDao = useDao;
-    }
+    public FacilityUseServiceImpl(UseDao useDao){ this.useDao = useDao; }
 
     @Override
     public boolean isInUseDuringInterval(long id, Date start, Date end) {
@@ -36,6 +34,7 @@ public class FacilityUseServiceImpl implements FacilityUseService {
     @Override
     public void assignFacilityToUse(long id, Schedule s) {
         FacilityUse use = new FacilityUse();
+        use.setId(id);
         use.setFacility(id);
         use.setSchedule(s);
         useDao.addUse(use);

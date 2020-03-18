@@ -15,10 +15,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * HashMap implementation of @see . Singleton pattern to avoid multiple data stores.
  */
 public class HashMapFacilityDao implements FacilityDao {
-    private final HashMap<Long, Facility> dataStore;
+    private final Map<Long, Facility> dataStore;
     private final AtomicLong autoIncrementer = new AtomicLong(0);
 
-    public HashMapFacilityDao(HashMap<Long, Facility> dataStore){ this.dataStore = dataStore; }
+    public HashMapFacilityDao(Map<Long, Facility> dataStore){ this.dataStore = dataStore; }
 
     @Override
     public List<Facility> findAllFacilities() {
@@ -39,7 +39,7 @@ public class HashMapFacilityDao implements FacilityDao {
 
         if (f instanceof Building) {
             Building building = (Building) f;
-            ArrayList<Unit> units = building.getUnits();
+            List<Unit> units = building.getUnits();
             while (!units.isEmpty()) {
                 Unit u = units.get(units.size() - 1);
                 synchronized (dataStore) {
@@ -82,5 +82,5 @@ public class HashMapFacilityDao implements FacilityDao {
         }
     }
 
-    public HashMap<Long, Facility> getDataStore(){ return dataStore; }
+    public Map<Long, Facility> getDataStore(){ return dataStore; }
 }

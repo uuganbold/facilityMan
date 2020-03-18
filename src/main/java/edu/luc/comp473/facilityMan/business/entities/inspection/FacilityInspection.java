@@ -12,39 +12,25 @@ public class FacilityInspection {
     private InspectionType inspectionType;
     private Schedule schedule;
     private Status status;
-    private Facility facility;
-
-    /**
-     * When we use ORM framework we are not likely to have this constructor. It can
-     * be fixed later.
-     *
-     * @param inspectionType
-     * @param schedule
-     * @param facility
-     */
-    public FacilityInspection(InspectionType inspectionType, Schedule schedule, Facility facility) {
-        this.id = facility.getId();
-        this.inspectionType = inspectionType;
-        this.schedule = schedule;
-        this.facility = facility;
-        this.status = Status.SCHEDULED;
-    }
+    private long facilityId;
 
     public long getId() {
         return id;
     }
 
+    public void setId(Long id){ this.id = id; }
+
     public InspectionType getInspectionType() {
         return inspectionType;
     }
+
+    public void setInspectionType(InspectionType inspectionType){ this.inspectionType = inspectionType; }
 
     public Schedule getSchedule() {
         return schedule;
     }
 
-    public Facility getFacility() {
-        return facility;
-    }
+    public void setSchedule(Schedule schedule){ this.schedule = schedule; }
 
     public Status getStatus() {
         return status;
@@ -54,9 +40,13 @@ public class FacilityInspection {
         this.status = status;
     }
 
+    public Long getFacility() { return facilityId; }
+
+    public void setFacility(Long facilityId){ this.facilityId = facilityId; }
+
     @Override
     public String toString() {
-        return "FacilityInspection [facility=" + facility + ", id=" + id + ", inspectionType=" + inspectionType
+        return "FacilityInspection [facilityId=" + facilityId + ", id=" + id + ", inspectionType=" + inspectionType
                 + ", schedule=" + schedule + ", status=" + status + "]";
     }
 
