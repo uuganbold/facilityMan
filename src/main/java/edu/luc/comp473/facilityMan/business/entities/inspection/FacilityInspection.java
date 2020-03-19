@@ -14,7 +14,16 @@ public class FacilityInspection {
     private Status status;
     private long facilityId;
 
-    public long getId() {
+    public FacilityInspection(){
+        
+    }
+    public FacilityInspection(InspectionType type, Schedule schedule2, Facility facility) {
+        this.inspectionType=type;
+        this.schedule=schedule2;
+        facilityId=facility.getId();
+	}
+
+	public long getId() {
         return id;
     }
 

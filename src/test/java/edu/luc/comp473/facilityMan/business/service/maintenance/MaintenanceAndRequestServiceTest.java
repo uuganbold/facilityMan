@@ -7,8 +7,6 @@ import edu.luc.comp473.facilityMan.business.entities.maintenance.MaintenanceOrde
 import edu.luc.comp473.facilityMan.business.entities.maintenance.MaintenanceRequest;
 import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
 import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
-import edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceService;
-import edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceServiceImpl;
 import edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestService;
 import edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestServiceImpl;
 import edu.luc.comp473.facilityMan.persistence.maintenance.HashMapMaintenanceDao;
@@ -166,7 +164,9 @@ class MaintenanceAndRequestServiceTest {
         dao.addMaintenance(maintenance);
 
         assertTrue(maintenance.getRequests().isEmpty());
-        maintenanceRequestService.makeMaintenanceRequest(new Problem(""), maintenance.getId());
+
+        maintenanceRequestService.makeMaintenanceRequest(new Problem(""), 
+            maintenance.getId());
         assertEquals(1, maintenance.getRequests().size());
     }
 

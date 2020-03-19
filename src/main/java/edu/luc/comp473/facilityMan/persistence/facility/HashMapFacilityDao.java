@@ -6,7 +6,6 @@ import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
 import edu.luc.comp473.facilityMan.business.exceptions.DataAccessException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -70,12 +69,12 @@ public class HashMapFacilityDao implements FacilityDao {
     public void saveFacility(Facility facility) {
         if (facility.getId() == 0) {
             facility.setId(autoIncrementer.incrementAndGet());
-//        } else {
-//            if (!dataStore.containsKey(facility.getId())) {
-//                throw new DataAccessException("Facility has not been found with the id:" + facility.getId());
-//            } else if (!dataStore.get(facility.getId()).getClass().equals(facility.getClass())) {
-//                throw new DataAccessException("Type of the facility does not match");
-//            }
+        } else {
+            if (!dataStore.containsKey(facility.getId())) {
+                throw new DataAccessException("Facility has not been found with the id:" + facility.getId());
+            } else if (!dataStore.get(facility.getId()).getClass().equals(facility.getClass())) {
+                throw new DataAccessException("Type of the facility does not match");
+            }
         }
         synchronized (dataStore) {
             dataStore.put(facility.getId(), facility);

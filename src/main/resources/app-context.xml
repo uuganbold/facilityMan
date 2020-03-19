@@ -5,39 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<description>Wiring the dependencies for the Facility Management Application.</description>
-
-	<context:component-scan base-package="edu.luc.comp473.facilityMan" />
-
-    <!-- Unit -->
-    <bean id="unit" class="edu.luc.comp473.facilityMan.business.entities.facility.Unit" scope="prototype">
-        <property name="detail" ref="facilityDetail"/>
-    </bean>
-
-    <!-- Facility Detail -->
-    <bean id="facilityDetail" class="edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail" scope="prototype"/>
-
-    <!-- Building -->
-    <bean id="building" class="edu.luc.comp473.facilityMan.business.entities.facility.Building" scope="prototype">
-        <property name="detail" ref="facilityDetail"/>
-        <property name="units">
-            <list/>
-        </property>
-    </bean>
-
-    <!-- Schedule -->
-    <bean id="schedule" class="edu.luc.comp473.facilityMan.business.entities.util.Schedule" scope="prototype">
-        <constructor-arg name="startDate" ref="date"/>
-        <constructor-arg name="endDate" ref="date"/>
-    </bean>
-
-    <!-- Date -->
-    <bean id="date" class="java.util.Date" scope="prototype"/>
-
-    <!-- Facility Use -->
-    <bean id="use" class="edu.luc.comp473.facilityMan.business.entities.use.FacilityUse" scope="prototype"/>
-
-    <!-- Facility Information Service -->
+	<!-- Facility Information Service -->
     <bean id="facilityDao" class="edu.luc.comp473.facilityMan.persistence.facility.HashMapFacilityDao">
         <constructor-arg name="dataStore">
             <map key-type="java.lang.Long" value-type="edu.luc.comp473.facilityMan.business.entities.facility.Facility"/>
@@ -56,17 +24,10 @@
     <bean id="facilityInspectionService" class="edu.luc.comp473.facilityMan.business.service.inspection.FacilityInspectionServiceImpl">
         <constructor-arg ref="facilityInspectionDao"/>
     </bean>
-    <bean id="facilityInspection" class="edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspection" scope="prototype"/>
-
+  
     <!-- Facility Inventory Service -->
     <bean id="facilityInventoryService" class="edu.luc.comp473.facilityMan.business.service.inventory.FacilityInventoryServiceImpl">
         <constructor-arg ref="facilityDao"/>
-    </bean>
-
-    <!-- Maintenance -->
-    <bean id="maintenance" class="edu.luc.comp473.facilityMan.business.entities.maintenance.Maintenance" scope="prototype">
-        <constructor-arg name="schedule" ref="schedule"/>
-        <constructor-arg name="facility" ref="building"/>
     </bean>
 
     <!-- Maintenance Service -->
@@ -77,14 +38,6 @@
     </bean>
     <bean id="maintenanceService" class="edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceServiceImpl">
         <constructor-arg ref="maintenanceDao"/>
-    </bean>
-
-    <!-- Problem Description -->
-    <bean id="description" class="java.lang.String" scope="prototype"/>
-
-    <!-- Problem -->
-    <bean id="problem" class="edu.luc.comp473.facilityMan.business.entities.maintenance.Problem" scope="prototype">
-        <constructor-arg ref="description" />
     </bean>
 
     <!-- Maintenance Request Service -->
