@@ -5,6 +5,9 @@ import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
 import edu.luc.comp473.facilityMan.business.entities.facility.Unit;
 import edu.luc.comp473.facilityMan.business.entities.inspection.FacilityInspection;
 import edu.luc.comp473.facilityMan.business.entities.inspection.InspectionType;
+import edu.luc.comp473.facilityMan.business.entities.maintenance.Maintenance;
+import edu.luc.comp473.facilityMan.business.entities.maintenance.MaintenanceRequest;
+import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
 import edu.luc.comp473.facilityMan.business.entities.use.FacilityUse;
 import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
 import edu.luc.comp473.facilityMan.business.entities.util.Status;
@@ -65,24 +68,45 @@ public class FacilityManClient {
         // facility inventory
         facilityInventoryService.addNewFacility(unit1);
         facilityInventoryService.addNewFacility(building1);
+        System.out.println("Facilities:\n");
         for (Facility f: facilityInventoryService.listFacilities()){
-            System.out.println(f + "\n");
+            System.out.println("\t" + f + "\n");
         }
 
         // facility information
         String s = facilityInformationService.getFacilityInformation(1L).getName();
-        System.out.println(s + "\n");
+        System.out.println("Facility Information:\n");
+        System.out.println("\t" + s + "\n");
 
         // facility use
         facilityUseService.assignFacilityToUse(building1.getId(), schedule1);
+        System.out.println("Facility Uses:\n");
         for(FacilityUse use : facilityUseService.listActualUsage()){
-            System.out.println(use + "\n");
+            System.out.println("\t" + use + "\n");
         }
 
         // facility inspection
         facilityInspectionService.addInspection(facilityInspection1);
+        System.out.println("Inspections:\n");
         for(FacilityInspection f : facilityInspectionService.listInspections()){
-            System.out.println(f + "\n");
+            System.out.println("\t" + f + "\n");
+        }
+
+        // maintenance
+        Maintenance maintenance = (Maintenance) context.getBean("maintenance");
+        maintenanceService.scheduleMaintenance(maintenance);
+        System.out.println("Maintenance:\n");
+        for(Maintenance m : maintenanceService.listMaintenance()){
+            System.out.println("\t" + m + "\n");
+        }
+
+        // maintenance request
+        Problem problem = (Problem) context.getBean("problem");
+        problem.setDescription("it's a problem!");
+        maintenanceRequestService.makeMaintenanceRequest(problem, maintenance.getId());
+        System.out.println("Maintenance Requests:\n");
+        for(MaintenanceRequest m : maintenanceRequestService.listMaintRequests()) {
+            System.out.println("\t" + m + "\n");
         }
     }
 }

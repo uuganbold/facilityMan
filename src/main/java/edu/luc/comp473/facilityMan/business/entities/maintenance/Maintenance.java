@@ -79,5 +79,4 @@ public class Maintenance {
         return "Maintenance [facility=" + facility + ", id=" + id + ", orders=" + orders + ", problems=" + problems
                 + ", requests=" + requests + ", schedule=" + schedule + ", status=" + status + "]";
     }
-
 }

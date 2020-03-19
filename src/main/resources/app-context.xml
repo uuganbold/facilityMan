@@ -9,14 +9,6 @@
 
 	<context:component-scan base-package="edu.luc.comp473.facilityMan" />
 
-    <!-- Building -->
-    <bean id="building" class="edu.luc.comp473.facilityMan.business.entities.facility.Building" scope="prototype">
-        <property name="detail" ref="facilityDetail"/>
-        <property name="units">
-            <list/>
-        </property>
-    </bean>
-
     <!-- Unit -->
     <bean id="unit" class="edu.luc.comp473.facilityMan.business.entities.facility.Unit" scope="prototype">
         <property name="detail" ref="facilityDetail"/>
@@ -24,6 +16,14 @@
 
     <!-- Facility Detail -->
     <bean id="facilityDetail" class="edu.luc.comp473.facilityMan.business.entities.facility.FacilityDetail" scope="prototype"/>
+
+    <!-- Building -->
+    <bean id="building" class="edu.luc.comp473.facilityMan.business.entities.facility.Building" scope="prototype">
+        <property name="detail" ref="facilityDetail"/>
+        <property name="units">
+            <list/>
+        </property>
+    </bean>
 
     <!-- Schedule -->
     <bean id="schedule" class="edu.luc.comp473.facilityMan.business.entities.util.Schedule" scope="prototype">
@@ -63,6 +63,12 @@
         <constructor-arg ref="facilityDao"/>
     </bean>
 
+    <!-- Maintenance -->
+    <bean id="maintenance" class="edu.luc.comp473.facilityMan.business.entities.maintenance.Maintenance" scope="prototype">
+        <constructor-arg name="schedule" ref="schedule"/>
+        <constructor-arg name="facility" ref="building"/>
+    </bean>
+
     <!-- Maintenance Service -->
     <bean id="maintenanceDao" class="edu.luc.comp473.facilityMan.persistence.maintenance.HashMapMaintenanceDao">
         <constructor-arg name="dataStore">
@@ -71,6 +77,14 @@
     </bean>
     <bean id="maintenanceService" class="edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceServiceImpl">
         <constructor-arg ref="maintenanceDao"/>
+    </bean>
+
+    <!-- Problem Description -->
+    <bean id="description" class="java.lang.String" scope="prototype"/>
+
+    <!-- Problem -->
+    <bean id="problem" class="edu.luc.comp473.facilityMan.business.entities.maintenance.Problem" scope="prototype">
+        <constructor-arg ref="description" />
     </bean>
 
     <!-- Maintenance Request Service -->
