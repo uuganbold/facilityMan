@@ -6,7 +6,7 @@ Design and development by Tyler Arndt, Sam Siner and Uuganbold Tsegmed
 
 #### How to Run
 
-Install Maven at https://maven.apache.org/install.html. Then the program can be run with the "mvn exec:exec" command. Alternatively, the FacilityManApplication file contains a main method that can be run directly from the code editor.
+Install Maven at https://maven.apache.org/install.html. Then the program can be run with the "mvn clean compile exec:exec" command. Alternatively, the FacilityManApplication file contains a main method that can be run directly from the code editor.
 
 #### Project Description
 
