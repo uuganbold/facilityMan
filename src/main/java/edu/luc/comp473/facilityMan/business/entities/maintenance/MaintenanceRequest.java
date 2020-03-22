@@ -26,4 +26,9 @@ public class MaintenanceRequest {
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
+
+    @Override
+    public String toString() {
+        return "MaintenanceRequest [date=" + dateSubmitted + ", id=" + id + ", description=" + description + "]";
+    }
 }

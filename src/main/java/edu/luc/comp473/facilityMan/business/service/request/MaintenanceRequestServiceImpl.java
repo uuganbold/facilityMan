@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class MaintenanceRequestServiceImpl implements MaintenanceRequestService {
     private final MaintenanceDao maintenanceDao;
-    private AtomicLong autoIncrementer = new AtomicLong();
+    private AtomicLong autoIncrementer=new AtomicLong(0);
 
     public MaintenanceRequestServiceImpl(MaintenanceDao maintenanceDao){
         this.maintenanceDao = maintenanceDao;

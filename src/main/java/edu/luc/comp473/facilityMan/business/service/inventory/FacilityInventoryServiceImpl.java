@@ -24,9 +24,9 @@ public class FacilityInventoryServiceImpl implements FacilityInventoryService {
 
     @Override
     public List<Facility> listFacilities() {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Reading all facilities from DAO");
-        }
+//        if (logger.isDebugEnabled()) {
+//            logger.debug("Reading all facilities from DAO");
+//        }
         return dao.findAllFacilities();
     }
 

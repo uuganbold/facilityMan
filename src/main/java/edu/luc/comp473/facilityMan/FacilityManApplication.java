@@ -1,19 +1,11 @@
 package edu.luc.comp473.facilityMan;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-import edu.luc.comp473.facilityMan.persistence.use.UseDao;
-//import org.apache.catalina.core.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import edu.luc.comp473.facilityMan.business.entities.facility.Building;
 import edu.luc.comp473.facilityMan.business.entities.facility.Facility;
@@ -28,56 +20,27 @@ import edu.luc.comp473.facilityMan.business.entities.maintenance.Problem;
 import edu.luc.comp473.facilityMan.business.entities.use.FacilityUse;
 import edu.luc.comp473.facilityMan.business.entities.util.Schedule;
 import edu.luc.comp473.facilityMan.business.service.information.FacilityInformationService;
-import edu.luc.comp473.facilityMan.business.service.information.FacilityInformationServiceImpl;
 import edu.luc.comp473.facilityMan.business.service.inspection.FacilityInspectionService;
-import edu.luc.comp473.facilityMan.business.service.inspection.FacilityInspectionServiceImpl;
 import edu.luc.comp473.facilityMan.business.service.inventory.FacilityInventoryService;
-import edu.luc.comp473.facilityMan.business.service.inventory.FacilityInventoryServiceImpl;
 import edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceService;
-import edu.luc.comp473.facilityMan.business.service.maintenance.MaintenanceServiceImpl;
 import edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestService;
-import edu.luc.comp473.facilityMan.business.service.request.MaintenanceRequestServiceImpl;
 import edu.luc.comp473.facilityMan.business.service.use.FacilityUseService;
-import edu.luc.comp473.facilityMan.business.service.use.FacilityUseServiceImpl;
-import edu.luc.comp473.facilityMan.persistence.facility.FacilityDao;
-import edu.luc.comp473.facilityMan.persistence.facility.HashMapFacilityDao;
-import edu.luc.comp473.facilityMan.persistence.inspection.HashMapFacilityInspectionDao;
-import edu.luc.comp473.facilityMan.persistence.maintenance.HashMapMaintenanceDao;
-import edu.luc.comp473.facilityMan.persistence.maintenance.MaintenanceDao;
-import edu.luc.comp473.facilityMan.persistence.use.ArrayListUseDao;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-@SpringBootApplication
-public class FacilityManApplication implements CommandLineRunner {
+public class FacilityManApplication{
 
 	private final Logger logger = LoggerFactory.getLogger(FacilityManApplication.class);
-	//
-	// public static void main(String[] args) {
-	// SpringApplication.run(FacilityManApplication.class, args);
-	// }
-	// ApplicationContext context = new ClassPathXmlApplicationContext();
+	
+	ApplicationContext context;
 
-	private FacilityInformationService informationService;
-	private FacilityInspectionService inspectionService;
-	private FacilityInventoryService facilityService;
-	private MaintenanceService maintenanceService;
-	private MaintenanceRequestService requestService;
-	private FacilityUseService useService;
-
-	private void init() {
-		FacilityDao facilityDao = new HashMapFacilityDao(new HashMap<>());
-		facilityService = new FacilityInventoryServiceImpl(facilityDao);
-		informationService = new FacilityInformationServiceImpl(facilityDao);
-		inspectionService = new FacilityInspectionServiceImpl(new HashMapFacilityInspectionDao(new HashMap<>()));
-		MaintenanceDao maintenanceDao = new HashMapMaintenanceDao(new HashMap<>());
-		maintenanceService = new MaintenanceServiceImpl(maintenanceDao);
-		requestService = new MaintenanceRequestServiceImpl(maintenanceDao);
-		UseDao useDao = new ArrayListUseDao(new ArrayList<>());
-		useService = new FacilityUseServiceImpl(useDao);
+	public static void main(String[] args) throws Exception{
+		//creating application.
+		FacilityManApplication application=new FacilityManApplication();
+		application.run(args);
 	}
 
-	@Override
+	//running application.
 	public void run(String... args) throws Exception {
 		init();
 		facilityInventory();
@@ -87,11 +50,31 @@ public class FacilityManApplication implements CommandLineRunner {
 		facilityUse();
 	}
 
+	//Build Spring ApplicationContext with XML configuration
+	private void init() {
+		context=new ClassPathXmlApplicationContext("app-context.xml");
+		informationService=context.getBean(FacilityInformationService.class);
+		inspectionService=context.getBean(FacilityInspectionService.class);
+		facilityService=context.getBean(FacilityInventoryService.class);
+		maintenanceService=context.getBean(MaintenanceService.class);
+		requestService=context.getBean(MaintenanceRequestService.class);
+		useService=context.getBean(FacilityUseService.class);
+	}
+
+	private FacilityInformationService informationService;
+	private FacilityInspectionService inspectionService;
+	private FacilityInventoryService facilityService;
+	private MaintenanceService maintenanceService;
+	private MaintenanceRequestService requestService;
+	private FacilityUseService useService;
+
 	private void facilityUse() {
 		useService.assignFacilityToUse(1L, new Schedule(new Date(2020, 1, 1), new Date(2020, 2, 15)));
 		useService.assignFacilityToUse(2L, new Schedule(new Date(2020, 1, 1), new Date(2020, 2, 15)));
 		List<FacilityUse> uses = useService.listActualUsage();
+		System.out.println("Facility Uses:\n");
 		uses.forEach(System.out::println);
+		System.out.println();
 	}
 
 	private void facilityMaintenance() {
@@ -109,8 +92,10 @@ public class FacilityManApplication implements CommandLineRunner {
 		maintenance = new Maintenance(new Schedule(new Date(2020, 3, 1), new Date(2020, 3, 3)), facility);
 		maintenanceService.scheduleMaintenance(maintenance);
 
+		System.out.println("Maintenances:\n");
 		List<Maintenance> maintenances = maintenanceService.listMaintenance();
 		maintenances.forEach(System.out::println);
+		System.out.println();
 	}
 
 	private void facilityInspection() {
@@ -122,9 +107,10 @@ public class FacilityManApplication implements CommandLineRunner {
 		inspectionService.addInspection(new FacilityInspection(InspectionType.PEST,
 				new Schedule(new Date(2020, 3, 2), new Date(2020, 3, 7)), facility));
 
+		System.out.println("Inspections:\n");
 		List<FacilityInspection> inspections = inspectionService.listInspections();
 		inspections.forEach(System.out::println);
-
+		System.out.println();
 	}
 
 	private void facilityInventory() {
@@ -140,11 +126,15 @@ public class FacilityManApplication implements CommandLineRunner {
 		building.addUnit(unit);
 		facilityService.addNewFacility(unit);
 
+		System.out.println("Facilities:\n");
 		List<Facility> facilities = facilityService.listFacilities();
 		facilities.forEach(System.out::println);
+		System.out.println();
 
+		System.out.println("Facility 2:\n");
 		Facility facility = facilityService.getFacility(2L);
 		System.out.println(facility);
+		System.out.println();
 	}
 
 	private void facilityDetail() {
@@ -153,12 +143,10 @@ public class FacilityManApplication implements CommandLineRunner {
 		informationService.addFacilityDetail(2L, new FacilityDetail("212", "Lecture hall"));
 		informationService.addFacilityDetail(3L, new FacilityDetail("313", "Lecture hall"));
 
-		List<Facility> facilities = facilityService.listFacilities();
-		facilities.forEach(System.out::println);
-
+		System.out.println("Facility Detail for 313:\n");
 		System.out.println(informationService.getFacilityInformation(3L));
 		System.out.println("Available capacity:" + informationService.requestAvailableCapacity(3L));
-
+		System.out.println();
 	}
 
 }
