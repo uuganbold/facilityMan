@@ -68,12 +68,13 @@ public class FacilityManApplication{
 	private MaintenanceRequestService requestService;
 	private FacilityUseService useService;
 
-
 	private void facilityUse() {
 		useService.assignFacilityToUse(1L, new Schedule(new Date(2020, 1, 1), new Date(2020, 2, 15)));
 		useService.assignFacilityToUse(2L, new Schedule(new Date(2020, 1, 1), new Date(2020, 2, 15)));
 		List<FacilityUse> uses = useService.listActualUsage();
+		System.out.println("Facility Uses:\n");
 		uses.forEach(System.out::println);
+		System.out.println();
 	}
 
 	private void facilityMaintenance() {
@@ -91,8 +92,10 @@ public class FacilityManApplication{
 		maintenance = new Maintenance(new Schedule(new Date(2020, 3, 1), new Date(2020, 3, 3)), facility);
 		maintenanceService.scheduleMaintenance(maintenance);
 
+		System.out.println("Maintenances:\n");
 		List<Maintenance> maintenances = maintenanceService.listMaintenance();
 		maintenances.forEach(System.out::println);
+		System.out.println();
 	}
 
 	private void facilityInspection() {
@@ -104,9 +107,10 @@ public class FacilityManApplication{
 		inspectionService.addInspection(new FacilityInspection(InspectionType.PEST,
 				new Schedule(new Date(2020, 3, 2), new Date(2020, 3, 7)), facility));
 
+		System.out.println("Inspections:\n");
 		List<FacilityInspection> inspections = inspectionService.listInspections();
 		inspections.forEach(System.out::println);
-
+		System.out.println();
 	}
 
 	private void facilityInventory() {
@@ -122,11 +126,15 @@ public class FacilityManApplication{
 		building.addUnit(unit);
 		facilityService.addNewFacility(unit);
 
+		System.out.println("Facilities:\n");
 		List<Facility> facilities = facilityService.listFacilities();
 		facilities.forEach(System.out::println);
+		System.out.println();
 
+		System.out.println("Facility 2:\n");
 		Facility facility = facilityService.getFacility(2L);
 		System.out.println(facility);
+		System.out.println();
 	}
 
 	private void facilityDetail() {
@@ -135,12 +143,10 @@ public class FacilityManApplication{
 		informationService.addFacilityDetail(2L, new FacilityDetail("212", "Lecture hall"));
 		informationService.addFacilityDetail(3L, new FacilityDetail("313", "Lecture hall"));
 
-		List<Facility> facilities = facilityService.listFacilities();
-		facilities.forEach(System.out::println);
-
+		System.out.println("Facility Detail for 313:\n");
 		System.out.println(informationService.getFacilityInformation(3L));
 		System.out.println("Available capacity:" + informationService.requestAvailableCapacity(3L));
-
+		System.out.println();
 	}
 
 }
