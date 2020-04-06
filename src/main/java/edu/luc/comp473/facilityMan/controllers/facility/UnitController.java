@@ -1,7 +1,6 @@
 package edu.luc.comp473.facilityMan.controllers.facility;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -16,11 +15,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.luc.comp473.facilityMan.business.exceptions.EntityNotFoundException;
-import edu.luc.comp473.facilityMan.business.service.facility.UnitService;
-import edu.luc.comp473.facilityMan.business.service.facility.dto.UnitDTO;
-import edu.luc.comp473.facilityMan.controllers.facility.payload.BuildingRepresentation;
-import edu.luc.comp473.facilityMan.controllers.facility.payload.UnitRepresentation;
-import edu.luc.comp473.facilityMan.controllers.facility.payload.UnitRequest;
+import edu.luc.comp473.facilityMan.business.facility.dto.UnitRepresentation;
+import edu.luc.comp473.facilityMan.business.facility.dto.UnitRequest;
+import edu.luc.comp473.facilityMan.business.facility.services.UnitService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -32,28 +29,25 @@ public class UnitController {
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public UnitRepresentation getUnit(@PathVariable long id) {
-        UnitDTO unit = service.getById(id);
+        UnitRepresentation unit = service.getById(id);
         if (unit == null)
             throw new EntityNotFoundException("Building not found with id:" + id);
-        return UnitRepresentation.of(unit).setBuilding(BuildingRepresentation.of(unit.getBuilding()));
+        return unit;
     }
 
     @GetMapping(produces = "application/json")
     public List<UnitRepresentation> getAllUnits() {
-        return service.listAll().stream().map(UnitRepresentation::of).collect(Collectors.toList());
+        return service.listAll();
     }
 
     @PostMapping(value = "", consumes = "application/json", produces = "application/json")
     public UnitRepresentation newBuilding(@RequestBody @Validated UnitRequest request) {
-        UnitDTO unit = service.create(request.toDTO());
-        return UnitRepresentation.of(unit).setBuilding(BuildingRepresentation.of(unit.getBuilding()));
+        return service.create(request);
     }
 
     @PutMapping(value = "/{id}")
     public UnitRepresentation updateBuilding(@PathVariable long id, @RequestBody @Validated UnitRequest request) {
-        UnitDTO b = (UnitDTO) request.toDTO().setId(id);
-        service.save(b);
-        return UnitRepresentation.of(b).setBuilding(BuildingRepresentation.of(b.getBuilding()));
+        return service.save(id,request);
     }
 
     @DeleteMapping(value = "/{id}")

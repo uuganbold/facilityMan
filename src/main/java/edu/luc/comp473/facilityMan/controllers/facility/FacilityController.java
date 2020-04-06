@@ -3,12 +3,11 @@ package edu.luc.comp473.facilityMan.controllers.facility;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.luc.comp473.facilityMan.business.exceptions.EntityNotFoundException;
-import edu.luc.comp473.facilityMan.business.service.facility.FacilityDetailService;
-import edu.luc.comp473.facilityMan.business.service.facility.FacilityService;
-import edu.luc.comp473.facilityMan.business.service.facility.dto.FacilityDetailDTO;
-import edu.luc.comp473.facilityMan.controllers.facility.payload.FacilityDetailRepresentation;
-import edu.luc.comp473.facilityMan.controllers.facility.payload.FacilityDetailRequest;
-import edu.luc.comp473.facilityMan.controllers.facility.payload.FacilityRepresentation;
+import edu.luc.comp473.facilityMan.business.facility.dto.FacilityDetailRepresentation;
+import edu.luc.comp473.facilityMan.business.facility.dto.FacilityDetailRequest;
+import edu.luc.comp473.facilityMan.business.facility.dto.FacilityRepresentation;
+import edu.luc.comp473.facilityMan.business.facility.services.FacilityDetailService;
+import edu.luc.comp473.facilityMan.business.facility.services.FacilityService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -34,16 +33,16 @@ public class FacilityController {
     private final FacilityDetailService detailService;
 
     @GetMapping(value = "")
-    public List<FacilityRepresentation> getMethodName() {
-        return service.listAll().stream().map(FacilityRepresentation::of).collect(Collectors.toList());
+    public List<FacilityRepresentation> getFacilities() {
+        return service.listAll();
     }
 
     @GetMapping(value = "/{id}/details")
     public FacilityDetailRepresentation getDetails(@PathVariable long id) {
-        FacilityDetailDTO dto = detailService.getById(id);
+        FacilityDetailRepresentation dto = detailService.getById(id);
         if (dto == null)
             throw new EntityNotFoundException("Facility details not found with id:" + id);
-        return FacilityDetailRepresentation.of(dto).setFacility(FacilityRepresentation.of(dto.getFacility()));
+        return dto;
     }
 
     @PostMapping(value = "/{id}/details")
@@ -55,10 +54,7 @@ public class FacilityController {
     @PutMapping(value = "/{id}/details")
     public FacilityDetailRepresentation updateDetails(@PathVariable long id,
             @RequestBody @Validated FacilityDetailRequest request) {
-        FacilityDetailDTO dto = request.toDTO();
-        dto.setId(id);
-        dto = detailService.create(dto);
-        return FacilityDetailRepresentation.of(dto).setFacility(FacilityRepresentation.of(dto.getFacility()));
+        return detailService.create(id,request);
     }
 
     @DeleteMapping(value = "/{id}/details")

@@ -3,14 +3,12 @@ package edu.luc.comp473.facilityMan.controllers.facility;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.luc.comp473.facilityMan.business.exceptions.EntityNotFoundException;
-import edu.luc.comp473.facilityMan.business.service.facility.BuildingService;
-import edu.luc.comp473.facilityMan.business.service.facility.dto.BuildingDTO;
-import edu.luc.comp473.facilityMan.controllers.facility.payload.BuildingRepresentation;
-import edu.luc.comp473.facilityMan.controllers.facility.payload.BuildingRequest;
+import edu.luc.comp473.facilityMan.business.facility.services.BuildingService;
+import edu.luc.comp473.facilityMan.business.facility.dto.BuildingRepresentation;
+import edu.luc.comp473.facilityMan.business.facility.dto.BuildingRequest;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -32,29 +30,26 @@ public class BuildingController {
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public BuildingRepresentation getBuilding(@PathVariable long id) {
-        BuildingDTO building = service.getById(id);
+        BuildingRepresentation building = service.getById(id);
         if (building == null)
             throw new EntityNotFoundException("Building not found with id:" + id);
-        return BuildingRepresentation.of(building);
+        return building;
     }
 
     @GetMapping(produces = "application/json")
     public List<BuildingRepresentation> getAllBuildings() {
-        return service.listAll().stream().map(BuildingRepresentation::of).collect(Collectors.toList());
+        return service.listAll();
     }
 
     @PostMapping(value = "", consumes = "application/json", produces = "application/json")
     public BuildingRepresentation newBuilding(@RequestBody @Validated BuildingRequest buildingRequest) {
-        BuildingDTO build = service.create(buildingRequest.toDTO());
-        return BuildingRepresentation.of(build);
+        return service.create(buildingRequest);
     }
 
     @PutMapping(value = "/{id}")
     public BuildingRepresentation updateBuilding(@PathVariable long id,
             @RequestBody @Validated BuildingRequest request) {
-        BuildingDTO b = (BuildingDTO) request.toDTO().setId(id);
-        service.save(b);
-        return BuildingRepresentation.of(b);
+        return service.save(id,request);
     }
 
     @DeleteMapping(value = "/{id}")
